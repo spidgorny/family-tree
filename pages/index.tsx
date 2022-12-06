@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 // import FamilyTree from "@balkangraph/familytree.js";
-import FamilyTree from "../lib/family-tree";
+import FamilyTree from "../lib/family-tree.cjs";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

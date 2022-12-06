@@ -1,7 +1,8 @@
 import invariant from "invariant";
-import { MagicTable, MysqlConnector } from "./mysql-connector";
+import { MysqlConnector } from "./mysql-connector";
 import * as fs from "fs";
 import { findUp } from "find-up";
+import { MagicTable } from "./magic-table";
 
 let dbConnection;
 
