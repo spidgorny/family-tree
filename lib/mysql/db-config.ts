@@ -1,5 +1,5 @@
 import invariant from "invariant";
-import { MysqlConnector } from "./mysql-connector";
+import { MagicTable, MysqlConnector } from "./mysql-connector";
 import * as fs from "fs";
 import { findUp } from "find-up";
 
@@ -7,7 +7,7 @@ let dbConnection;
 
 export async function getDb() {
   if (dbConnection) {
-    return dbConnection;
+    return new MagicTable(dbConnection);
   }
   invariant(process.env.MYSQL_HOST, "process.env.MYSQL_HOST missing");
   let filePath = process.env.MYSQL_CERTIFICATE;
@@ -22,5 +22,5 @@ export async function getDb() {
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
   });
-  return dbConnection;
+  return new MagicTable(dbConnection);
 }

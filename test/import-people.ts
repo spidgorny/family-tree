@@ -11,7 +11,7 @@ runTest(async () => {
     mergeAttrs: true,
   });
   let personList = tree.agelongtree.Pers.r;
-  console.log(personList);
+  console.log("personList", personList.length);
   const allColumns = personList.reduce((a, x) => {
     return [...a, ...Object.keys(x)];
   }, []);
@@ -44,7 +44,8 @@ runTest(async () => {
 
   const tPerson = (await getDb()).getTable("people");
   await PromiseOneByOne(
-    personList.map(async (person) => {
+    personList.map(async (person, index) => {
+      console.log(index, "/", personList.length);
       let insert: any = Object.entries(colTypes).map(([col, type]) => {
         if (type === "object") {
           return [col, JSON.stringify(person[col])];
@@ -59,7 +60,7 @@ runTest(async () => {
       insert.alive = insert?.alive === "T";
       // @ts-ignore
       insert.sex = insert?.sex === "T";
-      console.log(insert);
+      // console.log(insert);
       await tPerson.insertUpdate(insert);
     })
   );

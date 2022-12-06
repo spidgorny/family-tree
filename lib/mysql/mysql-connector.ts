@@ -34,4 +34,25 @@ export class MysqlConnector {
   getTable(tableName) {
     return new MysqlTable(this, tableName);
   }
+
+  get(tableName) {
+    return this.getTable(tableName);
+  }
+}
+
+interface IMysqlConnector {
+  getTable(tableName): MysqlTable;
+}
+
+export class MagicTable {
+  target: MysqlConnector;
+  people: MysqlTable;
+  constructor(target) {
+    this.target = target;
+    return new Proxy(target, this);
+  }
+
+  get(target, prop) {
+    return this[prop] || this.target.getTable(prop);
+  }
 }

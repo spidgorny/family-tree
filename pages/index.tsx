@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import FamilyTree from "@balkangraph/familytree.js";
+// import FamilyTree from "@balkangraph/familytree.js";
+import FamilyTree from "../lib/family-tree";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -12,9 +13,14 @@ function Familytree(props) {
       filterBy: "all",
       // orientation: FamilyTree.orientation.left,
     });
+
     family.on("init", () => {
-      family?.center("HU1DHXjkMZ");
+      // family?.center("HU1DHXjkMZ");
+      setTimeout(() => {
+        family?.center("gqFq9x3Si0");
+      }, 1000);
     });
+
     family.on("expcollclick", (sender, isCollapsing, nodeId) => {
       const node = family.getNode(nodeId);
       if (isCollapsing) {
@@ -24,8 +30,15 @@ function Familytree(props) {
       }
       return false;
     });
+
     // @ts-ignore
     family.onUpdateNode(({ oldData: { updateNodesData } }) => {
+      //return false; to cancel the operation
+      console.log("updateNode", updateNodesData[0]);
+    });
+
+    // @ts-ignore
+    family.on("updateNode", ({ oldData: { updateNodesData } }) => {
       //return false; to cancel the operation
       console.log("updateNode", updateNodesData[0]);
     });

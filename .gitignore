@@ -36,3 +36,5 @@ yarn-error.log*
 .env
 .idea/
 ca-certificate.crt
+public/export.xml
+public/export.xml.files
