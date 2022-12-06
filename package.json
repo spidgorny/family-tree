@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel:build": "echo $CA_CERTIFICATE_CRT > ca-certificate.crt && npm run build"
   },
   "dependencies": {
     "@balkangraph/familytree.js": "^1.7.9",
