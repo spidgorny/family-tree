@@ -12,12 +12,14 @@ export async function getDb() {
   }
   invariant(process.env.MYSQL_HOST, "process.env.MYSQL_HOST missing");
   let filePath = process.env.MYSQL_CERTIFICATE;
-  filePath = await findUp(filePath);
+  // filePath = await findUp(filePath);
+  // let ca = fs.readFileSync(filePath, "utf8");
+  let ca = process.env.CA_CERTIFICATE_CRT;
   dbConnection = new MysqlConnector({
     host: process.env.MYSQL_HOST,
     port: Number(process.env.MYSQL_PORT),
     ssl: {
-      ca: fs.readFileSync(filePath, "utf8"),
+      ca,
     },
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
