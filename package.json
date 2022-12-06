@@ -8,12 +8,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel:build": "echo $CA_CERTIFICATE_CRT > ca-certificate.crt && npm run build"
+    "vercel:build": "echo $CA_CERTIFICATE_CRT > ca-certificate.crt && ls -l && npm run build"
   },
   "dependencies": {
     "@balkangraph/familytree.js": "^1.7.9",
     "aws-sdk-v3-proxy": "^2.0.13",
     "axios": "^1.2.0",
+    "directory-tree": "^3.4.0",
     "dotenv": "^16.0.3",
     "find-up": "^6.3.0",
     "invariant": "^2.2.4",

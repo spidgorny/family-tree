@@ -93,14 +93,15 @@ const nodeBinding = {
 };
 
 const Home: NextPage = () => {
-  const [json, setJSON] = useState();
+  // const [json, setJSON] = useState();
   const [data, setData] = useState(defaultTree);
   useEffect(() => {
     async function readXML() {
-      const { data: json } = await axios.get("/api/json");
-      setJSON(json);
+      const { data: json } = await axios.get("/api/people");
+      // setJSON(json);
 
-      let data = json.agelongtree.Pers.r;
+      // let data = json.agelongtree.Pers.r;
+      let data = json.people;
       data = data.map((pers) => {
         let spouseList = Array.isArray(pers.spouse)
           ? pers.spouse?.map((x) => x.id)
