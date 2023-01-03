@@ -1,7 +1,8 @@
-import { runTest } from "./bootstrap";
+import {runTest} from "./bootstrap";
 import fs from "fs/promises";
-import { parseStringPromise } from "xml2js";
-import { getDb } from "../lib/mysql/db-config";
+import {parseStringPromise} from "xml2js";
+import {getDb} from "../lib/mysql/db-config";
+import {PromiseOneByOne} from "../lib/promise-one-by-one";
 
 runTest(async () => {
   let xml = await fs.readFile("../export/export.xml", "utf8");
@@ -66,14 +67,3 @@ runTest(async () => {
   );
 });
 
-function isValidDate(dateObject) {
-  return new Date(dateObject).toString() !== "Invalid Date";
-}
-
-async function PromiseOneByOne(promiseList = []) {
-  let results = [];
-  for (let promise of promiseList) {
-    results.push(await promise);
-  }
-  return results;
-}
