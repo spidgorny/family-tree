@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { findUp } from "find-up";
 import invariant from "tiny-invariant";
 
-export async function runTest(code) {
+export async function runTest(code: () => Promise<void>) {
   console.log("Running test", process.uptime());
   //console.log("pwd", process.cwd());
   const envPath = await findUp(".env");

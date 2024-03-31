@@ -4,7 +4,7 @@ import {parseStringPromise} from "xml2js";
 import {getDb} from "../lib/mysql/db-config";
 import {PromiseOneByOne} from "../lib/promise-one-by-one";
 
-runTest(async () => {
+void runTest(async () => {
   let xml = await fs.readFile("../export/export.xml", "utf8");
   let tree = await parseStringPromise(xml, {
     trim: true,
@@ -51,6 +51,9 @@ runTest(async () => {
         if (type === "object") {
           return [col, JSON.stringify(person[col])];
         }
+        if (type === "date" && person[col]?.length === 4) {
+					return [col, person[col]+'-01-01'];
+				}
         if (type === "date" && person[col]) {
           return [col, person[col].split(".").reverse().join("-")];
         }

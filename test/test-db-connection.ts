@@ -1,9 +1,7 @@
-import { runTest } from "./bootstrap";
-import fs from "fs/promises";
-import { parseStringPromise } from "xml2js";
-import { getDb } from "../lib/mysql/db-config";
+import {runTest} from "./bootstrap";
+import {getDb} from "../lib/mysql/db-config";
 
-runTest(async () => {
+void runTest(async () => {
   const tPerson = (await getDb()).getTable("people");
   console.log(await tPerson.selectOne({}))
-}).then();
+})
