@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getDb } from "../../../lib/mysql/db-config";
 import { handleGet } from "../../../lib/api-handler";

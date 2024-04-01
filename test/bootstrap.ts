@@ -10,8 +10,7 @@ export async function runTest(code: () => Promise<void>) {
   dotenv.config({ path: envPath });
   invariant(process.env.MYSQL_HOST, "fix .env");
 
-  const output = await code();
-  console.log(output);
+  await code();
 
   console.log("done in", process.uptime());
   process.exit(0);
