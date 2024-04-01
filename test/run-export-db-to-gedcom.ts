@@ -2,7 +2,15 @@ import { runTest } from "./bootstrap";
 import { getDb } from "../lib/mysql/db-config";
 import astToGedcom from "generate-gedcom";
 import fs from "fs/promises";
-import { func } from "prop-types";
+
+type Child = { id: string; sex: "M" | "F" };
+type Spouse = {
+  id: string;
+  sex: "M" | "F";
+  marriage: "" | { date: string };
+  child: [Child];
+};
+
 export interface PersonRow {
   id: string;
   x1: number;
@@ -15,12 +23,7 @@ export interface PersonRow {
   fn: string;
   fullname: string;
   sex: string;
-  spouse: {
-    id: string;
-    sex: "M" | "F";
-    marriage: string;
-    child: [{ id: string; sex: "M" | "F" }];
-  };
+  spouse?: Spouse | Spouse[];
   msn: string;
   mn: string;
   father: string;
@@ -44,7 +47,7 @@ void runTest(async () => {
   const tPerson = (await getDb()).getTable("people");
   let people = (await tPerson.select({})) as PersonRow[];
   console.log("people", people.length);
-  people = people.slice(0, 6);
+  // people = people.slice(0, 6);
   const peopleWithSpouse = people.filter((row) => !!row.spouse);
   const input = [
     {
@@ -83,12 +86,7 @@ void runTest(async () => {
       data: "",
       tree: propsToTree(p1),
     })),
-    ...peopleWithSpouse.map((p1) => ({
-      pointer: getFamilyId(p1),
-      tag: "FAM",
-      data: "",
-      tree: familyToTree(p1),
-    })),
+    ...peopleWithSpouse.flatMap((p1) => familyToTree(p1)),
     {
       pointer: "",
       tag: "TRLR",
@@ -96,7 +94,7 @@ void runTest(async () => {
       tree: [],
     },
   ];
-  console.dir(input, { depth: null });
+  console.dir(input.slice(-10), { depth: null });
   await fs.writeFile("family.ged", astToGedcom(input));
 });
 
@@ -117,7 +115,7 @@ function propsToTree(p1: PersonRow) {
   const props = Object.entries(p1).filter(([key, val]) => {
     return !!val;
   });
-  const personTree = props.map((prop) => {
+  const personTree = props.flatMap((prop) => {
     let tree = [];
     let propValue = prop[1];
     if (propValue instanceof Date) {
@@ -128,7 +126,15 @@ function propsToTree(p1: PersonRow) {
           year: "numeric",
           day: "2-digit",
         })
-        .toUpperCase();
+        .toUpperCase()
+        .replace("SEPT", "SEP");
+      let tag = propToGedcom[prop[0]];
+      return {
+        pointer: "",
+        tag,
+        data: "",
+        tree: [{ pointer: "", tag: "DATE", data: propValue, tree: [] }],
+      };
     }
     if (prop[0] === "sex") {
       propValue = propValue === 0 ? "male" : "female";
@@ -146,11 +152,22 @@ function propsToTree(p1: PersonRow) {
     if (prop[0] === "msn") {
       tree = [{ pointer: "", tag: "TYPE", data: "maiden", tree: [] }];
     }
+    if (prop[0] === "pl_full") {
+      return {
+        pointer: "",
+        tag: "RESI",
+        data: "",
+        tree: [{ pointer: "", tag: "ADDR", data: propValue, tree: [] }],
+      };
+    }
     if (prop[0] === "spouse") {
       return {
         pointer: "",
         tag: "FAMC",
-        data: getFamilyId(p1),
+        data: getFamilyId(
+          p1,
+          Array.isArray(p1.spouse) ? p1.spouse[0] : p1.spouse,
+        ),
         tree: [],
       };
     }
@@ -160,10 +177,26 @@ function propsToTree(p1: PersonRow) {
         tag: "NAME",
         data: propValue,
         tree: [
-          { pointer: "", tag: "GIVN", data: p1.fn, tree: [] },
-          { pointer: "", tag: "SURN", data: p1.sn, tree: [] },
-          { pointer: "", tag: "SPFX", data: p1.mn, tree: [] },
-        ],
+          p1.fn ? { pointer: "", tag: "GIVN", data: p1.fn, tree: [] } : null,
+          p1.sn ? { pointer: "", tag: "SURN", data: p1.sn, tree: [] } : null,
+          p1.mn ? { pointer: "", tag: "SPFX", data: p1.mn, tree: [] } : null,
+        ].filter(Boolean),
+      };
+    }
+    if (prop[0] === "comment") {
+      let commentLines = propValue
+        .split("\n")
+        .flatMap((longLine) => longLine.match(/.{1,200}(?:\s|$)/g));
+      return {
+        pointer: "",
+        tag: "NOTE",
+        data: commentLines[0],
+        tree: commentLines.slice(1).map((line) => ({
+          pointer: "",
+          tag: "CONC",
+          data: line,
+          tree: [],
+        })),
       };
     }
     let tag = propToGedcom[prop[0]];
@@ -193,8 +226,12 @@ const propToGedcom = {
 
 function familyToTree(p1: PersonRow) {
   let spouseList = Array.isArray(p1.spouse) ? p1.spouse : [p1.spouse];
+  return spouseList.map((spouse: Spouse) => genFamily(p1, spouse));
+}
+
+function genFamily(p1: PersonRow, spouse: Spouse) {
   let mainSpouse =
-    spouseList[0].sex === "M"
+    spouse.sex === "M"
       ? {
           pointer: "",
           tag: "WIFE",
@@ -208,40 +245,40 @@ function familyToTree(p1: PersonRow) {
           tree: [],
         };
 
-  return [
-    mainSpouse,
-    ...spouseList.flatMap((spouse) => {
-      // console.log("FAM", p1.id, p1.spouse);
-      let childList = Array.isArray(spouse.child)
-        ? spouse.child
-        : [spouse.child];
-      let children = childList?.map((child) => ({
-        pointer: "",
-        tag: "CHIL",
-        data: child.id,
-        tree: [],
-      }));
-      return [
-        spouse.sex === "M"
-          ? {
-              pointer: "",
-              tag: "HUSB",
-              data: spouse.id,
-              tree: [],
-            }
-          : {
-              pointer: "",
-              tag: "WIFE",
-              data: spouse.id,
-              tree: [],
-            },
-        ...children,
-      ];
-    }),
-  ];
+  // console.log("FAM", p1.id, p1.spouse);
+  let childList = Array.isArray(spouse.child) ? spouse.child : [spouse.child];
+  // console.log(JSON.stringify(childList));
+  let children = childList?.filter(Boolean)?.map((child: Child) => ({
+    pointer: "",
+    tag: "CHIL",
+    data: child.id,
+    tree: [],
+  }));
+  let secondSpouse =
+    spouse.sex === "M"
+      ? {
+          pointer: "",
+          tag: "HUSB",
+          data: spouse.id,
+          tree: [],
+        }
+      : {
+          pointer: "",
+          tag: "WIFE",
+          data: spouse.id,
+          tree: [],
+        };
+  return {
+    pointer: getFamilyId(p1, spouse),
+    tag: "FAM",
+    data: "",
+    tree: [mainSpouse, secondSpouse, ...children],
+  };
 }
 
-function getFamilyId(p1: PersonRow) {
-  let firstSpouse = p1.spouse?.id ?? p1.spouse[0].id;
-  return `@F${p1.id.substring(3)}-${firstSpouse.substring(3)}@`;
+function getFamilyId(p1: PersonRow, spouse: Spouse) {
+  if (!spouse) {
+    throw new Error(`no spouse in ${JSON.stringify(p1.spouse)}`);
+  }
+  return `@F${p1.id.substring(3)}-${spouse.id.substring(3)}@`;
 }
