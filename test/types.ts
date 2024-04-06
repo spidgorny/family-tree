@@ -21,8 +21,8 @@ export interface PersonRow {
 	spouse?: Spouse | Spouse[];
 	msn: string;
 	mn: string;
-	father: string;
-	mother: string;
+	father?: { id: string };
+	mother: { id: string };
 	occu: string;
 	age: number;
 	bfdate: Date;
