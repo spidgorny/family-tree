@@ -38,5 +38,5 @@ yarn-error.log*
 ca-certificate.crt
 public/export.xml
 public/export.xml.files
-export/
+public/export/
 pushkin.*

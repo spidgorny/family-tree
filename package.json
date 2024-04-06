@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
+    "dev": "next dev",
     "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
@@ -16,6 +16,7 @@
     "aws-sdk-v3-proxy": "^2.1.2",
     "axios": "^1.6.8",
     "directory-tree": "^3.5.1",
+    "bootstrap": "^5",
     "dotenv": "^16.4.5",
     "find-up": "^7.0.0",
     "invariant": "^2.2.4",
@@ -38,5 +39,9 @@
     "prettier": "^3.2.5",
     "tsx": "^4.7.1",
     "typescript": "5.4.3"
+  },
+  "prettier": {
+    "useTabs": true,
+    "tabWidth": 2
   }
 }
