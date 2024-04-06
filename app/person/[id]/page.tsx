@@ -16,6 +16,11 @@ export default async function PersonPage(props: any) {
 		Birthday: person.bfdate?.toISOString().substring(0, 10),
 		Location: person.pl_full,
 	};
+	const spouseList = person.spouse
+		? Array.isArray(person.spouse)
+			? person.spouse
+			: [person.spouse]
+		: [];
 	return (
 		<div>
 			<h1>{person.fullname}</h1>
@@ -33,8 +38,8 @@ export default async function PersonPage(props: any) {
 				<SimpleTable props={personProps} />
 			</div>
 
-			<h4>Parents</h4>
-			<div className="d-flex gap-3">
+			<h4 className="mt-3">Parents</h4>
+			<div className="d-flex gap-3 mb-3">
 				<div style={{ flex: 1 }}>
 					{person.father?.id && <ClickableFace id={person.father.id} />}
 				</div>
@@ -43,17 +48,19 @@ export default async function PersonPage(props: any) {
 				</div>
 			</div>
 
-			<h4>Descendants</h4>
-			<div className="d-flex gap-3">
-				<div style={{ flex: 1 }}>
-					{person.spouse?.id && <ClickableFace id={person.spouse.id} />}
+			<h4 className="mt-3">Descendants</h4>
+			{spouseList.map((spouse) => (
+				<div className="d-flex gap-3 mb-3" key={spouse.id}>
+					<div style={{ flex: 1 }}>
+						{spouse?.id && <ClickableFace id={spouse.id} />}
+					</div>
+					<div style={{ flex: 1 }}>
+						{spouse.child?.map((child) => (
+							<ClickableFace key={child.id} id={child.id} />
+						))}
+					</div>
 				</div>
-				<div style={{ flex: 1 }}>
-					{person.spouse?.child?.map((child) => (
-						<ClickableFace key={child.id} id={child.id} />
-					))}
-				</div>
-			</div>
+			))}
 
 			<pre className="bg-secondary-subtle p-2 my-3" style={{ fontSize: "8pt" }}>
 				{JSON.stringify(person, null, 2)}
