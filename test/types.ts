@@ -39,3 +39,7 @@ export interface PersonRow {
 	bplace: string;
 	bfplace: string;
 }
+
+export interface PersonRowNormalized extends PersonRow {
+	spouse: Spouse[];
+}

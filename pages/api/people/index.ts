@@ -1,14 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getDb } from "../../../lib/mysql/db-config";
 import { handleGet } from "../../../lib/api-handler";
+import { getPeople } from "../../../app/person/[id]/form-actions";
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+	req: NextApiRequest,
+	res: NextApiResponse,
 ) {
-  return handleGet(req, res, async () => {
-    const db = await getDb();
-    const people = await db.people.select({});
-    return { people };
-  });
+	return handleGet(req, res, async () => {
+		const people = await getPeople();
+		return { people };
+	});
 }

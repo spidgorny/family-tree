@@ -1,13 +1,14 @@
-import { getDb } from "../../../lib/mysql/db-config";
-import { PersonRow } from "../../../test/types";
+"use server";
+
 import Image from "next/image";
 import { SimpleTable } from "./simple-table";
 import { ClickableFace } from "./clickable-face";
+import { AddSpousePane } from "./add-spouse-pane";
+import { getPerson } from "./form-actions";
 
 export default async function PersonPage(props: any) {
 	const id = props.params.id;
-	const db = await getDb();
-	const person = (await db.people.selectOne({ id })) as PersonRow;
+	const person = await getPerson(id);
 	const personProps = {
 		"First Name": person.fn,
 		"Middle Name": person.mn,
@@ -48,7 +49,10 @@ export default async function PersonPage(props: any) {
 				</div>
 			</div>
 
-			<h4 className="mt-3">Descendants</h4>
+			<div className="d-flex justify-content-between">
+				<h4 className="mt-3">Descendants</h4>
+				<AddSpousePane to={person.id} />
+			</div>
 			{spouseList.map((spouse) => (
 				<div className="d-flex gap-3 mb-3" key={spouse.id}>
 					<div style={{ flex: 1 }}>
@@ -62,7 +66,7 @@ export default async function PersonPage(props: any) {
 				</div>
 			))}
 
-			<pre className="bg-secondary-subtle p-2 my-3" style={{ fontSize: "8pt" }}>
+			<pre className="bg-gray-500 p-2 my-3" style={{ fontSize: "8pt" }}>
 				{JSON.stringify(person, null, 2)}
 			</pre>
 		</div>

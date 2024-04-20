@@ -1,14 +1,8 @@
-// import { fetcher } from "./fetcher";
-import { getDb } from "../lib/mysql/db-config";
-import { PersonRow } from "../test/types";
 import Link from "next/link";
-// import useSWR from "swr";
+import { getPeople } from "./person/[id]/form-actions";
 
 export async function PeopleList() {
-	// const { isLoading, data } = useSWR("/api/people", fetcher);
-	// const people = data?.people ?? [];
-	const db = await getDb();
-	const people = (await db.people.select({})) as PersonRow[];
+	const people = await getPeople();
 	return (
 		<ul className="p-0">
 			{people.map((person) => (
