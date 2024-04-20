@@ -22,17 +22,20 @@ export async function savePerson(id: string, formData: FormData) {
 
 export async function getPeople() {
 	const db = await getDb();
-	return (await db.people.select({})) as PersonRow[];
+	const peopleList = (await db.people.select({})) as PersonRow[];
+	return peopleList.map(normalizePerson);
 }
+
+let normalizePerson = (person: PersonRow) => ({
+	...person,
+	fullname: person.fullname ?? `${person.fn} ${person.mn} ${person.sn}`,
+	spouse: person.spouse ?? [],
+});
 
 export async function getPerson(id: string) {
 	const db = await getDb();
 	const person = (await db.people.selectOne({ id })) as PersonRow;
-	return {
-		...person,
-		fullname: person.fullname ?? `${person.fn} ${person.mn} ${person.sn}`,
-		spouse: person.spouse ?? [],
-	} as PersonRowNormalized;
+	return normalizePerson(person) as PersonRowNormalized;
 }
 
 export async function appendSpouse(to: string, formData: FormData) {
@@ -111,7 +114,11 @@ export async function addSpouse(to: string, formData: FormData) {
 	return "ok";
 }
 
-export async function addChild(to: string, formData: FormData) {
+export async function addChild(
+	to: string,
+	spouseId: string,
+	formData: FormData,
+) {
 	const data = Object.fromEntries(formData.entries()) as Record<string, any>;
 	console.log(data);
 	invariant(data.childId, "data.childId missing");
@@ -121,7 +128,7 @@ export async function addChild(to: string, formData: FormData) {
 
 	const db = await getDb();
 	let spouseList = person.spouse.map((spouse) => {
-		if (spouse.id === person.id) {
+		if (spouse.id === spouseId) {
 			return {
 				...spouse,
 				child: [...(spouse.child ?? []), { id: child.id }],
@@ -129,6 +136,7 @@ export async function addChild(to: string, formData: FormData) {
 		}
 		return spouse;
 	});
+	console.log(spouseList);
 	await db.people.update(
 		{
 			spouse: spouseList,
@@ -137,16 +145,26 @@ export async function addChild(to: string, formData: FormData) {
 	);
 
 	const fatherOrMother = person.sex === "1" ? "father" : "mother";
-	await db.people.update(
-		{
-			[fatherOrMother]: [
-				{
-					id: person.id,
-				},
-			],
+	let updateChild = {
+		[fatherOrMother]: {
+			id: person.id,
 		},
-		{ id: data.childId },
-	);
+	};
+	console.log({ updateChild });
+	await db.people.update(updateChild, { id: data.childId });
 	revalidatePath(`/person/${to}`);
+	return "ok";
+}
+
+export async function addPerson(formData: FormData) {
+	const data = Object.fromEntries(formData.entries()) as Record<string, any>;
+	console.log(data);
+	const db = await getDb();
+	let newPerson = {
+		id: nanoid(10),
+		...data,
+	};
+	const res = await db.people.insert(newPerson);
+	revalidatePath(`/person/[id]`);
 	return "ok";
 }

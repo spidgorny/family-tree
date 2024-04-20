@@ -5,7 +5,11 @@ import { useFormStatus } from "react-dom";
 import { addChild } from "./form-actions";
 import { usePeople } from "./use-people";
 
-export function SelectChild(props: { to: string; onClose: () => void }) {
+export function SelectChild(props: {
+	to: string;
+	spouseId: string;
+	onClose: () => void;
+}) {
 	let { people } = usePeople();
 	people = people.filter((x) => x.id !== props.to);
 	const { pending } = useFormStatus();
@@ -13,7 +17,7 @@ export function SelectChild(props: { to: string; onClose: () => void }) {
 		<form
 			action={async (formData: FormData) => {
 				console.log(formData);
-				await addChild(props.to, formData);
+				await addChild(props.to, props.spouseId, formData);
 				props.onClose();
 			}}
 		>

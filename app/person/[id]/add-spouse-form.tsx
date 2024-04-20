@@ -1,18 +1,38 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import { addSpouse } from "./form-actions";
+import { addPerson, addSpouse } from "./form-actions";
 
 export function AddSpouseForm(props: { to: string; onClose: () => void }) {
-	const { pending } = useFormStatus();
-	const addSpouseWithTo = addSpouse.bind(null, props.to);
 	return (
 		<form
 			action={async (formData: FormData) => {
-				addSpouseWithTo(formData);
+				await addSpouse(props.to, formData);
 				props.onClose();
 			}}
 		>
+			<NewPersonForm />
+		</form>
+	);
+}
+
+export function AddAnyPerson(props: { onClose: () => void }) {
+	return (
+		<form
+			action={async (formData: FormData) => {
+				await addPerson(formData);
+				props.onClose();
+			}}
+		>
+			<NewPersonForm />
+		</form>
+	);
+}
+
+export function NewPersonForm(props: {}) {
+	const { pending } = useFormStatus();
+	return (
+		<div>
 			<label className="form-label d-block mb-3">
 				Email address
 				<input
@@ -37,6 +57,6 @@ export function AddSpouseForm(props: { to: string; onClose: () => void }) {
 			<button type="submit" className="btn btn-primary" disabled={pending}>
 				Submit
 			</button>
-		</form>
+		</div>
 	);
 }
