@@ -1,4 +1,3 @@
-import { getDb } from "../../../lib/mysql/db-config";
 import { PersonRow } from "../../../test/types";
 import Link from "next/link";
 import Image from "next/image";

@@ -15,6 +15,7 @@ export interface PersonRow {
 	alive: boolean;
 	de: Date;
 	di: Date;
+	email: string;
 	fn: string;
 	fullname: string;
 	sex: string;
@@ -33,7 +34,7 @@ export interface PersonRow {
 	};
 	comment: string;
 	sn: string;
-	dfdate: string;
+	dfdate: Date;
 	lifespan: string;
 	dreason: string;
 	bplace: string;

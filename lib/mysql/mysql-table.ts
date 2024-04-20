@@ -49,7 +49,7 @@ export class MysqlTable {
 
 	async insert(data) {
 		data = objectMap(data, (x) =>
-			typeof x === "object" ? JSON.stringify(x) : x,
+			typeof x && x === "object" ? JSON.stringify(x) : x,
 		);
 		const query = getInsertQuery(this.TABLE, data);
 		// console.log(query.query, query.values);
@@ -59,7 +59,7 @@ export class MysqlTable {
 
 	async update(data, where) {
 		data = objectMap(data, (x) =>
-			typeof x === "object" ? JSON.stringify(x) : x,
+			typeof x && x === "object" ? JSON.stringify(x) : x,
 		);
 		const query = getUpdateQuery(this.TABLE, data, where);
 		// console.log(query.query, query.values);
