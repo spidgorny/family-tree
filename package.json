@@ -16,7 +16,7 @@
     "aws-sdk-v3-proxy": "^2.1.2",
     "axios": "^1.6.8",
     "directory-tree": "^3.5.1",
-    "bootstrap": "^5",
+    "bootstrap": "^5.3.3",
     "dotenv": "^16.4.5",
     "find-up": "^7.0.0",
     "invariant": "^2.2.4",
@@ -31,14 +31,14 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@types/node": "20.12.2",
-    "@types/react": "18.2.73",
-    "@types/react-dom": "18.2.23",
-    "eslint": "8.57.0",
+    "@types/node": "20.12.5",
+    "@types/react": "18.2.74",
+    "@types/react-dom": "18.2.24",
+    "eslint": "9.0.0",
     "eslint-config-next": "14.1.4",
     "prettier": "^3.2.5",
-    "tsx": "^4.7.1",
-    "typescript": "5.4.3"
+    "tsx": "^4.7.2",
+    "typescript": "5.4.4"
   },
   "prettier": {
     "useTabs": true,

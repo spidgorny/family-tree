@@ -13,5 +13,5 @@ export async function runTest(code: () => Promise<void>) {
   await code();
 
   console.log("done in", process.uptime());
-  process.exit(0);
+  process.exit(123);
 }

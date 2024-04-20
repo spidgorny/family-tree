@@ -9,7 +9,7 @@ export const metadata = {
 	icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function (props: PropsWithChildren) {
+export default function RootLayout(props: PropsWithChildren) {
 	return (
 		<html lang="en">
 			<body>

@@ -5,7 +5,7 @@ export class MagicTable {
   target: MysqlConnector;
   people: MysqlTable;
 
-  constructor(target) {
+  constructor(target: MysqlConnector) {
     this.target = target;
     return new Proxy(target, this);
   }

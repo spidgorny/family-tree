@@ -6,6 +6,7 @@ import Image from "next/image";
 export async function ClickableFace(props: { id: string }) {
 	const db = await getDb();
 	const person = (await db.people.selectOne({ id: props.id })) as PersonRow;
+	if (!person) return <div>No Person with id=[{props.id}]</div>;
 	return (
 		<div className="border rounded-3 p-1 d-flex gap-2">
 			<Link href={`/person/${person.id}`}>
