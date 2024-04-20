@@ -156,6 +156,10 @@ export async function addChild(
 	return "ok";
 }
 
+export async function addParent(id: string, type: string, formData: FormData) {
+	return "ok";
+}
+
 export async function addPerson(formData: FormData) {
 	const data = Object.fromEntries(formData.entries()) as Record<string, any>;
 	console.log(data);
