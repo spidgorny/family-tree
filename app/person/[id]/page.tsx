@@ -7,6 +7,7 @@ import { AddSpousePane } from "./add-spouse-pane";
 import { getPerson } from "./form-actions";
 import { EditPersonPane } from "./edit-person-pane";
 import { AddChildPane } from "./add-child-pane";
+import { AddParentPane } from "./add-parent-pane";
 
 export default async function PersonPage(props: any) {
 	const id = props.params.id;
@@ -60,9 +61,11 @@ export default async function PersonPage(props: any) {
 			<div className="d-flex gap-3 mb-3">
 				<div style={{ flex: 1 }}>
 					{person.father?.id && <ClickableFace id={person.father.id} />}
+					{!person.father?.id && <AddParentPane id={person.id} type="father" />}
 				</div>
 				<div style={{ flex: 1 }}>
 					{person.mother?.id && <ClickableFace id={person.mother.id} />}
+					{!person.mother?.id && <AddParentPane id={person.id} type="mother" />}
 				</div>
 			</div>
 

@@ -31,15 +31,12 @@ export function AddParentPane(props: {
 				`}
 				</style>
 
-				<h4>Select Child</h4>
+				<h4>Select Parent</h4>
 				<SelectParent
 					to={props.id}
 					type={props.type}
 					onClose={() => setState(false)}
 				/>
-
-				<h4>Add Person</h4>
-				<AddAnyPerson onClose={() => setState(false)} />
 			</SlidingPane>
 		</div>
 	);
