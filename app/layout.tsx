@@ -15,20 +15,19 @@ export default function RootLayout(props: PropsWithChildren) {
 	return (
 		<html lang="en">
 			<body>
-				<div className="container-fluid">
-					<SearchContextProvider>
-						<MainHeader />
+				<SearchContextProvider>
+					<MainHeader />
+					<div className="container-fluid">
 						<LoginGuard>
 							<div className="row">
-								<div className="col-3">
-									<h1>Menu</h1>
+								<div className="col-3 py-3">
 									<PeopleList />
 								</div>
 								<div className="col-9">{props.children}</div>
 							</div>
 						</LoginGuard>
-					</SearchContextProvider>
-				</div>
+					</div>
+				</SearchContextProvider>
 			</body>
 		</html>
 	);

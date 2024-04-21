@@ -3,6 +3,7 @@
 import { useFormStatus } from "react-dom";
 import { savePerson } from "./form-actions";
 import { PersonRowNormalized } from "../../../test/types";
+import { utcDate } from "../../../lib/date";
 
 export function EditPersonForm(props: {
 	person: PersonRowNormalized;
@@ -90,12 +91,12 @@ export function EditPersonForm(props: {
 				/>
 			</label>
 			<label className="form-label d-block mb-3">
-				Date of birth
+				Date of birth ({utcDate(props.person.bfdate)})
 				<input
 					name="bfdate"
 					type="date"
 					className="form-control"
-					defaultValue={props.person.bfdate?.toISOString() ?? ""}
+					defaultValue={utcDate(props.person.bfdate)}
 				/>
 			</label>
 			<label className="form-label d-block mb-3">

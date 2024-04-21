@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getIronSession } from "iron-session";
 import invariant from "tiny-invariant";
-import { getDb } from "../../../lib/mysql/db-config";
+import { getDb } from "../../../lib/pg-sql/db-config";
 import { PersonRow } from "../../../test/types";
 
 export async function getMySession(req: NextApiRequest, res: NextApiResponse) {
