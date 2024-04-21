@@ -11,7 +11,7 @@ export class MagicTable {
 		return new Proxy(target, this);
 	}
 
-	get(target, prop) {
+	get(target: MysqlConnector, prop: string) {
 		return this[prop] || this.target.getTable(prop);
 	}
 

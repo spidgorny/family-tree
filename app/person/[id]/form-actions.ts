@@ -1,6 +1,6 @@
 "use server";
 
-import { getDb } from "../../../lib/mysql/db-config";
+import { getDb } from "../../../lib/pg-sql/db-config";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { PersonRow, PersonRowNormalized } from "../../../test/types";
