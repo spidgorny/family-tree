@@ -74,6 +74,14 @@ export function EditPersonForm(props: {
 				</label>
 			</div>
 			<label className="form-label d-block mb-3">
+				Location
+				<input
+					name="pl_full"
+					className="form-control"
+					defaultValue={props.person.pl_full}
+				/>
+			</label>
+			<label className="form-label d-block mb-3">
 				Occupation
 				<input
 					name="occu"
@@ -81,7 +89,6 @@ export function EditPersonForm(props: {
 					defaultValue={props.person.occu}
 				/>
 			</label>
-
 			<label className="form-label d-block mb-3">
 				Date of birth
 				<input

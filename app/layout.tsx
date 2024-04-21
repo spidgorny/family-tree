@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { PeopleList } from "./people-list";
+import { MainHeader } from "./header";
 
 export const metadata = {
 	title: "Family Tree",
@@ -14,6 +15,7 @@ export default function RootLayout(props: PropsWithChildren) {
 		<html lang="en">
 			<body>
 				<div className="container-fluid">
+					<MainHeader />
 					<div className="row">
 						<div className="col-3">
 							<h1>Menu</h1>

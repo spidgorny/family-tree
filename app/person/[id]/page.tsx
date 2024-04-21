@@ -9,15 +9,20 @@ import { EditPersonPane } from "./edit-person-pane";
 import { AddChildPane } from "./add-child-pane";
 import { AddParentPane } from "./add-parent-pane";
 
+const YEAR = 365 * 24 * 60 * 60 * 1000;
+
 export default async function PersonPage(props: any) {
 	const id = props.params.id;
 	const person = await getPerson(id);
+	let age = person.bfdate
+		? `[${((Date.now() - person.bfdate.getTime()) / YEAR).toFixed(2)} years]`
+		: "";
 	const personProps = {
 		"First Name": person.fn,
 		"Middle Name": person.mn,
 		Surname: person.sn,
 		Occupation: person.occu,
-		Birthday: person.bfdate?.toISOString().substring(0, 10),
+		Birthday: `${person.bfdate?.toISOString().substring(0, 10) ?? ""} ${age}`,
 		Location: person.pl_full,
 		Email: person.email,
 		Deathday: person.dfdate,

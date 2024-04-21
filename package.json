@@ -20,6 +20,7 @@
     "dotenv": "^16.4.5",
     "find-up": "^7.0.0",
     "invariant": "^2.2.4",
+    "iron-session": "^8.0.1",
     "json-sql": "^0.5.0",
     "mysql2": "^3.9.6",
     "next": "14.2.2",
