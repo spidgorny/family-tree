@@ -95,7 +95,7 @@ export function EditPersonForm(props: {
 					name="bfdate"
 					type="date"
 					className="form-control"
-					defaultValue={props.person.bfdate?.toISOString()}
+					defaultValue={props.person.bfdate?.toISOString() ?? ""}
 				/>
 			</label>
 			<label className="form-label d-block mb-3">
@@ -112,7 +112,7 @@ export function EditPersonForm(props: {
 					name="dfdate"
 					type="date"
 					className="form-control"
-					defaultValue={props.person.dfdate?.toISOString()}
+					defaultValue={props.person.dfdate?.toISOString() ?? ""}
 				/>
 			</label>
 			<label className="form-label d-block mb-3">

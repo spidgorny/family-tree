@@ -1,18 +1,21 @@
 "use client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { PropsWithChildren, useContext, useEffect, useState } from "react";
 import SlidingPane from "react-sliding-pane";
 import Link from "next/link";
 import { useClientSession } from "../lib/use-client-session";
+import { SearchContext } from "./search-context";
+import "react-sliding-pane/dist/react-sliding-pane.css";
 
 export function MainHeader() {
 	return (
 		<header className="bg-light p-2 d-flex justify-content-between">
 			<h4>
 				<Link href="/public" className="text-decoration-none text-black">
-					Photo Folder (S3)
+					🌲 Family Tree
 				</Link>
 			</h4>
+			<SearchForm />
 			<SignInOrOut />
 		</header>
 	);
@@ -143,5 +146,36 @@ function SignOut(props: { onSuccess: () => void }) {
 		<button onClick={signOut} className="btn btn-outline-secondary">
 			Sign Out
 		</button>
+	);
+}
+
+function SearchForm() {
+	const context = useContext(SearchContext);
+	return (
+		<form onSubmit={(e) => e.preventDefault()}>
+			<input
+				type="search"
+				className="form-control"
+				onChange={(e) => context.onChange(e.target.value)}
+				placeholder="search by name"
+			/>
+		</form>
+	);
+}
+
+export function LoginGuard(props: PropsWithChildren) {
+	const session = useClientSession();
+	if (session.user) {
+		return props.children;
+	}
+
+	return (
+		<div className="d-flex flex-column align-items-center gap-5 justify-content-center my-5 py-5 border rounded">
+			<p>
+				Here's the family tree of various people related to the family name
+				Pidgornyy/Sigayeva
+			</p>
+			<SignInOrOut />
+		</div>
 	);
 }

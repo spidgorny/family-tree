@@ -8,14 +8,20 @@ import { getPerson } from "./form-actions";
 import { EditPersonPane } from "./edit-person-pane";
 import { AddChildPane } from "./add-child-pane";
 import { AddParentPane } from "./add-parent-pane";
+import invariant from "tiny-invariant";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
 export default async function PersonPage(props: any) {
 	const id = props.params.id;
 	const person = await getPerson(id);
+	console.log(person);
+	invariant(person, `person not found by id=[${id}]`);
 	let age = person.bfdate
-		? `[${((Date.now() - person.bfdate.getTime()) / YEAR).toFixed(2)} years]`
+		? `[${((Date.now() - person.bfdate.getTime()) / YEAR).toFixed(2)} years ago]`
+		: "";
+	let yearsSinceDeath = person.dfdate
+		? `[${((Date.now() - person.dfdate.getTime()) / YEAR).toFixed(2)} years ago]`
 		: "";
 	const personProps = {
 		"First Name": person.fn,
@@ -25,7 +31,7 @@ export default async function PersonPage(props: any) {
 		Birthday: `${person.bfdate?.toISOString().substring(0, 10) ?? ""} ${age}`,
 		Location: person.pl_full,
 		Email: person.email,
-		Deathday: person.dfdate,
+		Deathday: `${person.dfdate?.toISOString().substring(0, 10) ?? ""} ${yearsSinceDeath}`,
 		"Death reason": person.dreason,
 	};
 	const spouseList = person.spouse
@@ -35,9 +41,21 @@ export default async function PersonPage(props: any) {
 		: [];
 	return (
 		<div>
+			<h4 className="mt-3">Parents</h4>
+			<div className="d-flex gap-3 mb-3">
+				<div style={{ flex: 1 }}>
+					{person.father?.id && <ClickableFace id={person.father.id} />}
+					{!person.father?.id && <AddParentPane id={person.id} type="father" />}
+				</div>
+				<div style={{ flex: 1 }}>
+					{person.mother?.id && <ClickableFace id={person.mother.id} />}
+					{!person.mother?.id && <AddParentPane id={person.id} type="mother" />}
+				</div>
+			</div>
+
 			<div className="d-flex justify-content-between align-items-center">
 				<h1>
-					{person.sex === "1" ? "♂️" : "♀️"} {person.fullname}
+					{person.sex === "1" ? "♂️" : "♀️"} {person?.fullname}
 				</h1>
 				<EditPersonPane person={person} />
 			</div>
@@ -61,18 +79,6 @@ export default async function PersonPage(props: any) {
 			>
 				{person.comment}
 			</pre>
-
-			<h4 className="mt-3">Parents</h4>
-			<div className="d-flex gap-3 mb-3">
-				<div style={{ flex: 1 }}>
-					{person.father?.id && <ClickableFace id={person.father.id} />}
-					{!person.father?.id && <AddParentPane id={person.id} type="father" />}
-				</div>
-				<div style={{ flex: 1 }}>
-					{person.mother?.id && <ClickableFace id={person.mother.id} />}
-					{!person.mother?.id && <AddParentPane id={person.id} type="mother" />}
-				</div>
-			</div>
 
 			<div className="d-flex justify-content-between align-items-center">
 				<h4 className="mt-3">Descendants</h4>

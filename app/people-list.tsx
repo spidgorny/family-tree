@@ -1,13 +1,20 @@
-import Link from "next/link";
-import { getPeople } from "./person/[id]/form-actions";
+"use client";
+import { PersonLink } from "./person-link";
+import { useContext } from "react";
+import { SearchContext } from "./search-context";
+import { usePeople } from "./person/[id]/use-people";
 
-export async function PeopleList() {
-	const people = await getPeople();
+export function PeopleList() {
+	const context = useContext(SearchContext);
+	const { people } = usePeople();
+	const searchResults = context.q
+		? people.filter((x) => x.fullname.includes(context.q))
+		: people;
 	return (
 		<ul className="p-0">
-			{people.map((person) => (
+			{searchResults.map((person) => (
 				<li key={person.id} className="text-nowrap overflow-hidden">
-					<Link href={`/person/${person.id}`}>{person.fullname}</Link>
+					<PersonLink person={person} />
 				</li>
 			))}
 		</ul>

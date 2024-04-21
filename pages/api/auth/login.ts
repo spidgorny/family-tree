@@ -11,7 +11,7 @@ export async function getMySession(req: NextApiRequest, res: NextApiResponse) {
 		password: process.env.IRON_PASSWORD,
 		cookieName: process.env.IRON_COOKIE_NAME,
 	});
-	console.log("session", session);
+	// console.log("session", session);
 	return session;
 }
 

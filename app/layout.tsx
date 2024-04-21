@@ -2,7 +2,8 @@ import { PropsWithChildren } from "react";
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { PeopleList } from "./people-list";
-import { MainHeader } from "./header";
+import { LoginGuard, MainHeader } from "./header";
+import { SearchContextProvider } from "./search-context";
 
 export const metadata = {
 	title: "Family Tree",
@@ -15,14 +16,18 @@ export default function RootLayout(props: PropsWithChildren) {
 		<html lang="en">
 			<body>
 				<div className="container-fluid">
-					<MainHeader />
-					<div className="row">
-						<div className="col-3">
-							<h1>Menu</h1>
-							<PeopleList />
-						</div>
-						<div className="col-9">{props.children}</div>
-					</div>
+					<SearchContextProvider>
+						<MainHeader />
+						<LoginGuard>
+							<div className="row">
+								<div className="col-3">
+									<h1>Menu</h1>
+									<PeopleList />
+								</div>
+								<div className="col-9">{props.children}</div>
+							</div>
+						</LoginGuard>
+					</SearchContextProvider>
 				</div>
 			</body>
 		</html>

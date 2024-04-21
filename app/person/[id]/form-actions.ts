@@ -20,7 +20,7 @@ export async function savePerson(id: string, formData: FormData) {
 	return "ok";
 }
 
-export async function getPeople() {
+export async function getPeople(): Promise<PersonRowNormalized[]> {
 	const db = await getDb();
 	const peopleList = (await db.people.select({})) as PersonRow[];
 	return peopleList.map(normalizePerson);
@@ -35,7 +35,7 @@ let normalizePerson = (person: PersonRow) => ({
 export async function getPerson(id: string) {
 	const db = await getDb();
 	const person = (await db.people.selectOne({ id })) as PersonRow;
-	return normalizePerson(person) as PersonRowNormalized;
+	return person ? (normalizePerson(person) as PersonRowNormalized) : null;
 }
 
 export async function appendSpouse(to: string, formData: FormData) {
