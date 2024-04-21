@@ -23,20 +23,23 @@ void runTest(async () => {
 				person.fullname,
 				`[${person.sex}]`,
 				"married",
-				spouse1.fullname,
-				`[${spouse1.sex}]`,
+				spouse1?.fullname,
+				`[${spouse1?.sex}]`,
 				"on",
 				spouse.marriage,
 			);
 			console.table(spouse.child);
-			const wife = [person, spouse1].find((x) => x.sex === "0");
-			const husband = [person, spouse1].find((x) => x.sex === "1");
+			const wife = [person, spouse1].find((x) => x?.sex === "0");
+			const husband = [person, spouse1].find((x) => x?.sex === "1");
 			let marriage = {
 				id: nanoid(10),
-				wife: wife.id,
-				husband: husband.id,
+				wife: wife?.id,
+				husband: husband?.id,
 				created_at: new Date(),
-				date: spouse.marriage?.date || null,
+				date:
+					typeof spouse.marriage === "object"
+						? spouse.marriage?.date || null
+						: null,
 			};
 			console.log({ marriage });
 			await db.marriage.insertUpdate(marriage);

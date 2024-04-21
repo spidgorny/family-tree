@@ -1,5 +1,6 @@
 import { runTest } from "./bootstrap";
 import { getDb } from "../lib/mysql/db-config";
+// @ts-ignore
 import astToGedcom from "generate-gedcom";
 import fs from "fs/promises";
 import { Child, PersonRow, Spouse } from "./types";
@@ -77,7 +78,7 @@ function propsToTree(p1: PersonRow) {
 		return !!val;
 	});
 	const personTree = props.flatMap((prop) => {
-		let tree = [];
+		let tree: any[] = [];
 		let propValue = prop[1];
 		if (propValue instanceof Date) {
 			propValue.setHours(propValue.getHours() + 5);
@@ -127,7 +128,7 @@ function propsToTree(p1: PersonRow) {
 				tag: "FAMC",
 				data: getFamilyId(
 					p1,
-					Array.isArray(p1.spouse) ? p1.spouse[0] : p1.spouse,
+					Array.isArray(p1.spouse) ? p1.spouse[0] : p1.spouse!,
 				),
 				tree: [],
 			};

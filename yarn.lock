@@ -1686,6 +1686,11 @@ generate-function@^2.3.1:
   dependencies:
     is-property "^1.0.2"
 
+generate-gedcom@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/generate-gedcom/-/generate-gedcom-1.0.1.tgz#ffc74d9b35441cd38585e038da0f8f83fabdae0f"
+  integrity sha512-vGDTNTt4fJWuxtz5iGW8O0bu12RTQFlRmQYCRX0l+PX5bW7H9AilFaCW1ZitXzPu9xyJo8AXYMqv+DD+cLWDsQ==
+
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1, get-intrinsic@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/get-intrinsic/-/get-intrinsic-1.1.3.tgz#063c84329ad93e83893c7f4f243ef63ffa351385"
