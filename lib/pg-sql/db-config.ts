@@ -35,10 +35,3 @@ export async function testDb() {
 	]);
 	console.log("testDb", rows);
 }
-
-export async function listDbRows() {
-	const connector = new PostgresConnector(await getDb());
-	const table = connector.getTable("gollum_file");
-	const rows2 = await table.select({}, { limit: 10 });
-	console.table(rows2);
-}

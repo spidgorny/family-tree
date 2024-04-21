@@ -14,7 +14,7 @@ export class MagicPgTable {
 		return target[prop] || target.getTable(prop);
 	}
 
-	query(sql: string, args = []) {
+	query(sql: string, args: any[] = []) {
 		return this.target.query(sql, args);
 	}
 

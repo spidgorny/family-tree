@@ -8,10 +8,9 @@ export class MagicTable {
 
 	constructor(target: MysqlConnector) {
 		this.target = target;
-		return new Proxy(target, this);
 	}
 
-	get(target: MysqlConnector, prop: string) {
+	get(target: MagicTable, prop: string) {
 		return this[prop] || this.target.getTable(prop);
 	}
 

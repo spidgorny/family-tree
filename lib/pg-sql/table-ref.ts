@@ -17,6 +17,10 @@ export class TableRef {
 		this.db = db;
 	}
 
+	async query(sql: string, args: any[] = []) {
+		return this.db.query(sql, args);
+	}
+
 	async select(where: Where, options: SqlOptions = {}) {
 		const query = getSelectQuery(this.TABLE, where, options);
 		// console.log(query.query);

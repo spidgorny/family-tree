@@ -1,5 +1,5 @@
-import { TableRef } from './table-ref';
-import { Pool } from 'pg';
+import { TableRef } from "./table-ref";
+import { Pool } from "pg";
 
 export class PostgresConnector {
 	alive = true;
@@ -8,12 +8,11 @@ export class PostgresConnector {
 
 	constructor(connection: Pool, connectionName?: string) {
 		this.connection = connection;
-		this.connectionName =
-			connectionName ?? process.env.DB_SERVER ?? 'default';
+		this.connectionName = connectionName ?? process.env.DB_SERVER ?? "default";
 		this.alive = true;
 	}
 
-	async query(sql: string, args = []) {
+	async query(sql: string, args: any[] = []) {
 		const res = await this.connection.query(sql, args);
 		// console.log(res);
 		return res;

@@ -15,7 +15,7 @@ export async function savePerson(id: string, formData: FormData) {
 		dfdate: data.dfdate || null,
 	};
 	console.log(payload);
-	const res = await db.people.update(payload, { id });
+	await db.people.update(payload, { id });
 	revalidatePath(`/person/${id}`);
 	return "ok";
 }
@@ -26,10 +26,14 @@ export async function getPeople(): Promise<PersonRowNormalized[]> {
 	return peopleList.map(normalizePerson);
 }
 
-let normalizePerson = (person: PersonRow) => ({
+let normalizePerson = (person: PersonRow): PersonRowNormalized => ({
 	...person,
 	fullname: person.fullname ?? `${person.fn} ${person.mn} ${person.sn}`,
-	spouse: person.spouse ?? [],
+	spouse: person.spouse
+		? Array.isArray(person.spouse)
+			? person.spouse
+			: [person.spouse]
+		: [],
 });
 
 export async function getPerson(id: string) {
@@ -43,7 +47,9 @@ export async function appendSpouse(to: string, formData: FormData) {
 	console.log(data);
 	invariant(data.spouseId, "data.spouseId missing");
 	const person = await getPerson(to);
+	invariant(person, "person missing");
 	const spouse = await getPerson(data.spouseId);
+	invariant(spouse, "spouse missing");
 	console.log("person", person.id, { sex: person.sex });
 
 	const db = await getDb();
@@ -82,6 +88,7 @@ export async function addSpouse(to: string, formData: FormData) {
 	console.log(data);
 	const db = await getDb();
 	const person = await getPerson(to);
+	invariant(person, "person missing");
 	console.log("person", person.id, { sex: person.sex });
 	let newPerson = {
 		id: nanoid(10),
@@ -123,7 +130,9 @@ export async function addChild(
 	console.log(data);
 	invariant(data.childId, "data.childId missing");
 	const person = await getPerson(to);
+	invariant(person, "person missing");
 	const child = await getPerson(data.childId);
+	invariant(child, "child missing");
 	console.log("person/child", person.id, child.id);
 
 	const db = await getDb();
@@ -168,7 +177,7 @@ export async function addPerson(formData: FormData) {
 		id: nanoid(10),
 		...data,
 	};
-	const res = await db.people.insert(newPerson);
+	await db.people.insert(newPerson);
 	revalidatePath(`/person/[id]`);
 	return "ok";
 }
