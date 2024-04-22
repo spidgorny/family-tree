@@ -126,7 +126,7 @@ export async function addChild(
 	spouseId: string,
 	formData: FormData,
 ) {
-	const data = Object.fromEntries(formData.entries()) as Record<string, any>;
+	const data = Object.fromEntries(formData.entries()) as { childId: string };
 	console.log(data);
 	invariant(data.childId, "data.childId missing");
 	const person = await getPerson(to);
@@ -166,11 +166,28 @@ export async function addChild(
 }
 
 export async function addParent(id: string, type: string, formData: FormData) {
+	const data = Object.fromEntries(formData.entries()) as { parentId: string };
+	console.log(data);
+	const db = await getDb();
+	const person = await getPerson(data.parentId);
+	invariant(person, "person missing");
+
+	const fatherOrMother = person.sex === "1" ? "father" : "mother";
+	let updateChild = {
+		[fatherOrMother]: {
+			id: person.id,
+		},
+	};
+	console.log({ updateChild });
+	await db.people.update(updateChild, { id });
+	revalidatePath(`/person/${id}`);
 	return "ok";
 }
 
 export async function addPerson(formData: FormData) {
-	const data = Object.fromEntries(formData.entries()) as Record<string, any>;
+	const data = Object.fromEntries(
+		formData.entries(),
+	) as Partial<PersonRowNormalized>;
 	console.log(data);
 	const db = await getDb();
 	let newPerson = {

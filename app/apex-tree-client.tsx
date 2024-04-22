@@ -1,23 +1,49 @@
 "use client";
 import { ApexTree } from "apextree/src/apextree";
 import { useEffect, useRef } from "react";
-import { Node} from 'apextree/src/models';
+import { Node } from "apextree/src/models";
 import { TreeDirection } from "apextree/src/settings/Options";
+import { PersonRowNormalized } from "../test/types";
 
-export default function ApexTreeClient(props: {data: Node}) {
+export default function ApexTreeClient(props: {
+	id: string;
+	data: Node;
+	direction?: TreeDirection;
+}) {
 	const ref = useRef<HTMLDivElement>();
 
 	useEffect(() => {
 		const options = {
-			width: 700,
-			height: 700,
+			width: 1024,
+			height: 1024,
 			nodeWidth: 120,
 			nodeHeight: 80,
 			childrenSpacing: 100,
 			siblingSpacing: 30,
-			direction: "top" as TreeDirection,
+			direction: props.direction ?? ("bottom" as TreeDirection),
 			canvasStyle: "border: 1px solid black; background: #f6f6f6;",
-			enableToolbar: true
+			enableToolbar: false,
+			nodeTemplate: (content: string, node: PersonRowNormalized) => {
+				console.log(node);
+				return `<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;'>
+<div style="flex-grow: 1"><a href="?person=${node?.id}" style="text-decoration: none;">${content}</a></div>
+<div style="min-height: 0.5em; width: 100%; background-color: ${node?.sex === "1" ? "#8dd7fe" : "#e0b9fe"}; font-size: 10pt">
+<a href="/person/${node?.id}">&gt; more</a>
+</div></div>`;
+			},
+			nodeBGColor: "#ffffff",
+			nodeBGColorHover: "#eee",
+			edgeColor: "#BCBCBC",
+			edgeColorHover: "#BCBCBC",
+			enableTooltip: true,
+			tooltipId: "apextree-tooltip-container",
+			tooltipTemplate: (content: string) => {
+				return `<div style='display: flex; justify-content: center; align-items: center; text-align: center; height: 100%;'>${content}</div>`;
+			},
+			tooltipMaxWidth: 100,
+			tooltipBorderColor: "#BCBCBC",
+			tooltipBGColor: "#ffffff",
+			fontSize: "10pt",
 		};
 
 		let svgTreeDiv = ref.current;
@@ -27,8 +53,13 @@ export default function ApexTreeClient(props: {data: Node}) {
 		const tree = new ApexTree(svgTreeDiv, options);
 		const graph = tree.render(props.data);
 		console.log(graph);
-
 	}, []);
 
-	return <div id="svg-tree" ref={ref}></div>;
+	return (
+		<div
+			id={`svg-tree-${props.id}`}
+			ref={ref}
+			style={{ maxWidth: "100%" }}
+		></div>
+	);
 }

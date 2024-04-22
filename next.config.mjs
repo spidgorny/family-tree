@@ -8,7 +8,7 @@ const nextConfig = {
   experimental: {
 
   },
-  "transpilePackages": ["apextree"],
+  "transpilePackages": ["apextree", 'spidgorny-react-helpers'],
 }
 
 export default nextConfig

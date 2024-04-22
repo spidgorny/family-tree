@@ -9,7 +9,7 @@ let dbConnection: Pool;
 export async function getDb(): Promise<MagicPgTable> {
 	invariant(process.env.POSTGRES_HOST, "process.env.POSTGRES_HOST");
 	if (!dbConnection) {
-		// logger.warn('connecting to', process.env.DB_SERVER);
+		console.log("connecting to", process.env.POSTGRES_HOST);
 		// @ts-ignore
 		dbConnection = new pg.default.Pool({
 			user: process.env.POSTGRES_USER,

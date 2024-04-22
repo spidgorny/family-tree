@@ -15,7 +15,6 @@ const YEAR = 365 * 24 * 60 * 60 * 1000;
 export default async function PersonPage(props: any) {
 	const id = props.params.id;
 	const person = await getPerson(id);
-	console.log(person);
 	invariant(person, `person not found by id=[${id}]`);
 	let age = person.bfdate
 		? `[${((Date.now() - person.bfdate.getTime()) / YEAR).toFixed(2)} years ago]`
