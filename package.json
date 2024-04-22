@@ -16,6 +16,7 @@
     "@balkangraph/familytree.js": "^1.9.35",
     "@svgdotjs/svg.js": "^3.2.0",
     "@svgdotjs/svg.panzoom.js": "^2.1.2",
+    "@types/d3-flextree": "^2.1.4",
     "@types/pg": "^8.11.5",
     "apextree": "^1.1.0",
     "aws-sdk-v3-proxy": "^2.1.2",

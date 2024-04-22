@@ -23,6 +23,7 @@ export default async function Home({
 	let rootId = searchParams.person ?? sessionPerson?.id ?? "HhMd8ezTTI";
 	const person = await getPerson(rootId);
 	console.log({ rootId });
+	invariant(person, "Person not found");
 
 	const people = await getPeople();
 	const parentsTree = buildParentsTreeFrom(people, rootId);
@@ -32,9 +33,9 @@ export default async function Home({
 		<div className="my-3">
 			<div className="d-flex justify-content-between my-3">
 				<h4>{person.fullname}</h4>
-				<button className="btn btn-outline-info" href={`/person/${person.id}`}>
+				<a className="btn btn-outline-info" href={`/person/${person.id}`}>
 					more
-				</button>
+				</a>
 			</div>
 			<h5>Parents:</h5>
 			<ApexTreeClient id="1" data={parentsTree} />

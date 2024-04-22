@@ -2,7 +2,7 @@
 import { ApexTree } from "apextree/src/apextree";
 import { useEffect, useRef } from "react";
 import { Node } from "apextree/src/models";
-import { TreeDirection } from "apextree/src/settings/Options";
+import { TreeDirection, TreeOptions } from "apextree/src/settings/Options";
 import { PersonRowNormalized } from "../test/types";
 
 export default function ApexTreeClient(props: {
@@ -10,7 +10,7 @@ export default function ApexTreeClient(props: {
 	data: Node;
 	direction?: TreeDirection;
 }) {
-	const ref = useRef<HTMLDivElement>();
+	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const options = {
@@ -23,7 +23,7 @@ export default function ApexTreeClient(props: {
 			direction: props.direction ?? ("bottom" as TreeDirection),
 			canvasStyle: "border: 1px solid black; background: #f6f6f6;",
 			enableToolbar: false,
-			nodeTemplate: (content: string, node: PersonRowNormalized) => {
+			nodeTemplate: (content: string, node: Node & PersonRowNormalized) => {
 				console.log(node);
 				return `<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;'>
 <div style="flex-grow: 1"><a href="?person=${node?.id}" style="text-decoration: none;">${content}</a></div>
@@ -44,7 +44,7 @@ export default function ApexTreeClient(props: {
 			tooltipBorderColor: "#BCBCBC",
 			tooltipBGColor: "#ffffff",
 			fontSize: "10pt",
-		};
+		} as TreeOptions;
 
 		let svgTreeDiv = ref.current;
 		if (!svgTreeDiv) {
