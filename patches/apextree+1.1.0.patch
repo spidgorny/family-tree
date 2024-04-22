@@ -1,0 +1,105 @@
+diff --git a/node_modules/apextree/src/ApexTree.ts b/node_modules/apextree/src/ApexTree.ts
+index 7ff4cb7..5b99cec 100644
+--- a/node_modules/apextree/src/ApexTree.ts
++++ b/node_modules/apextree/src/ApexTree.ts
+@@ -1,4 +1,4 @@
+-import { Node, Graph, Toolbar } from 'src/models';
++import { Node, Graph, Toolbar } from './models';
+ import { DefaultOptions, TreeOptions } from './settings/Options';
+ 
+ export class ApexTree {
+diff --git a/node_modules/apextree/src/models/Export.ts b/node_modules/apextree/src/models/Export.ts
+index 734ff9b..8daebe9 100644
+--- a/node_modules/apextree/src/models/Export.ts
++++ b/node_modules/apextree/src/models/Export.ts
+@@ -1,4 +1,4 @@
+-import { Graph } from 'src/models/Graph';
++import { Graph } from '../models/Graph';
+ 
+ export class Export {
+   constructor(public graph: Graph) {}
+diff --git a/node_modules/apextree/src/models/Graph.ts b/node_modules/apextree/src/models/Graph.ts
+index af2839b..14f7c65 100644
+--- a/node_modules/apextree/src/models/Graph.ts
++++ b/node_modules/apextree/src/models/Graph.ts
+@@ -1,24 +1,24 @@
+ import { G, Path } from '@svgdotjs/svg.js';
+ import { flextree, FlextreeNode } from 'd3-flextree';
+-import { ExpandCollapseButtonSize, getEdge } from 'src/utils';
++import { ExpandCollapseButtonSize, getEdge } from '../utils';
+ import {
+   generateStyles,
+   getTooltip,
+   getTooltipStyles,
+   highlightToPath,
+   updateTooltip,
+-} from 'src/utils';
+-import { Paper } from 'src/models/Paper';
+-import { DirectionConfig } from 'src/settings/DirectionConfig';
++} from '../utils';
++import { Paper } from '../models/Paper';
++import { DirectionConfig } from '../settings/DirectionConfig';
+ import {
+   FontOptions,
+   NodeOptions,
+   TooltipOptions,
+   TreeDirection,
+   TreeOptions,
+-} from 'src/settings/Options';
+-import addSvg from 'src/icons/add-circle.svg';
+-import minusSvg from 'src/icons/minus-circle.svg';
++} from '../settings/Options';
++import addSvg from '../icons/add-circle.svg';
++import minusSvg from '../icons/minus-circle.svg';
+ 
+ export interface GraphPoint {
+   readonly x: number;
+diff --git a/node_modules/apextree/src/models/Paper.ts b/node_modules/apextree/src/models/Paper.ts
+index cf10b4e..f98bdb8 100644
+--- a/node_modules/apextree/src/models/Paper.ts
++++ b/node_modules/apextree/src/models/Paper.ts
+@@ -2,7 +2,7 @@ import { Circle } from '@svgdotjs/svg.js';
+ import { CircleAttr } from '@svgdotjs/svg.js';
+ import {Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+ import '@svgdotjs/svg.panzoom.js';
+-import {DefaultOptions, NodeOptions} from 'src/settings/Options';
++import {DefaultOptions, NodeOptions} from '../settings/Options';
+ 
+ export class Paper {
+   private readonly width: number;
+diff --git a/node_modules/apextree/src/settings/DirectionConfig.ts b/node_modules/apextree/src/settings/DirectionConfig.ts
+index bce3e6c..c6debc8 100644
+--- a/node_modules/apextree/src/settings/DirectionConfig.ts
++++ b/node_modules/apextree/src/settings/DirectionConfig.ts
+@@ -1,5 +1,5 @@
+-import {GraphPoint} from 'src/models';
+-import {Node, TreeNode} from 'src/models/Graph';
++import {GraphPoint} from '../models';
++import {Node, TreeNode} from '../models/Graph';
+ 
+ /* Horizontal diagonal generation algorithm - https://observablehq.com/@bumbeishvili/curved-edges-compact-horizontal */
+ export const curvedEdgesHorizontal = (s: GraphPoint, t: GraphPoint, m: GraphPoint): string => {
+diff --git a/node_modules/apextree/src/utils/EdgeUtils.ts b/node_modules/apextree/src/utils/EdgeUtils.ts
+index 558755a..bb3e874 100644
+--- a/node_modules/apextree/src/utils/EdgeUtils.ts
++++ b/node_modules/apextree/src/utils/EdgeUtils.ts
+@@ -1,5 +1,5 @@
+-import {Node, TreeNode} from 'src/models/Graph';
+-import {DirectionConfig} from 'src/settings/DirectionConfig';
++import {Node, TreeNode} from '../models/Graph';
++import {DirectionConfig} from '../settings/DirectionConfig';
+ 
+ export const getEdge = (
+   node: TreeNode<Node>,
+diff --git a/node_modules/apextree/src/utils/GraphUtils.ts b/node_modules/apextree/src/utils/GraphUtils.ts
+index 72713b8..8b483c3 100644
+--- a/node_modules/apextree/src/utils/GraphUtils.ts
++++ b/node_modules/apextree/src/utils/GraphUtils.ts
+@@ -1,5 +1,5 @@
+-import { Node, TreeNode } from 'src/models/Graph';
+-import { FontOptions, TreeOptions } from 'src/settings/Options';
++import { Node, TreeNode } from '../models/Graph';
++import { FontOptions, TreeOptions } from '../settings/Options';
+ 
+ export const setAttributes = (
+   element: Element | null,
