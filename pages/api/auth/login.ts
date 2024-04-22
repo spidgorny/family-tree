@@ -27,7 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		bfdate: new Date(dateOfBirth).toISOString().substring(0, 10),
 	} as Partial<PersonRow & { bfdate: string }>;
 	const person = await db.people.selectOne(where);
-	console.log(where, person);
+	// console.log(where, person);
 	if (person) {
 		session.user = req.body.email;
 		await session.save();

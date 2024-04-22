@@ -8,7 +8,7 @@ export async function handleGet(
 	code: Function
 ) {
 	try {
-		await authCheck(req);
+		await authCheck(req, res);
 		const output = await code(req, res);
 		return res.json(output);
 	} catch (e) {

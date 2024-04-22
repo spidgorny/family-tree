@@ -15,7 +15,9 @@ export function MainHeader() {
 					🌲 Family Tree
 				</Link>
 			</h4>
+			<LoginGuard blank={true} >
 			<SearchForm />
+			</LoginGuard>
 			<SignInOrOut />
 		</header>
 	);
@@ -163,10 +165,14 @@ function SearchForm() {
 	);
 }
 
-export function LoginGuard(props: PropsWithChildren) {
+export function LoginGuard(props: PropsWithChildren<{blank?: boolean}>) {
 	const session = useClientSession();
 	if (session.user) {
 		return props.children;
+	}
+
+	if (props.blank) {
+		return '';
 	}
 
 	return (

@@ -1,29 +1,10 @@
-import { NextApiRequest } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getMySession } from "../pages/api/auth/login";
+import invariant from "tiny-invariant";
 
-export async function authCheck(req: NextApiRequest) {
+export async function authCheck(req: NextApiRequest, res: NextApiResponse) {
+	const session = await getMySession(req, res);
+	invariant(session, "Access denied. No session.");
+	invariant(session?.user, "Access denied. No user.");
 	return true;
-	// // const session = await getSession({ req });
-	// let session = null;
-	//
-	// if (!session) {
-	// 	throw new Error("Access denied. No session.");
-	// }
-	//
-	// if (!session?.user) {
-	// 	throw new Error("Access denied. No user.");
-	// }
-	//
-	// // readonly by default is enabled
-	// if (
-	// 	req.method === "GET" ||
-	// 	req.method === "POST" ||
-	// 	req.method === "PATCH" ||
-	// 	req.method === "DELETE"
-	// ) {
-	// 	// if (!isAllowedToLogin(session.user.email)) {
-	// 	// 	throw new Error("Access denied. Wrong user.");
-	// 	// }
-	// }
-	//
-	// return true;
 }

@@ -8,7 +8,7 @@ export async function runTest(code: () => Promise<void>) {
   const envPath = await findUp(".env");
   console.log("env path " + envPath);
   dotenv.config({ path: envPath });
-  invariant(process.env.MYSQL_HOST, "fix .env");
+  invariant(process.env.IRON_PASSWORD, "fix .env");
 
   await code();
 
