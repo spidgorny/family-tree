@@ -3,6 +3,11 @@ import ApexTreeClient from "./apex-tree-client";
 import { PersonRowNormalized } from "../test/types";
 import { Json } from "spidgorny-react-helpers/debug";
 import invariant from "tiny-invariant";
+import {
+	getMySession,
+	getPageSession,
+	getPersonByEmail,
+} from "../pages/api/auth/login";
 
 export default async function Home({
 	params,
@@ -11,10 +16,15 @@ export default async function Home({
 	params: never;
 	searchParams: { person: string };
 }) {
-	const people = await getPeople();
-	let rootId = searchParams.person ?? "HhMd8ezTTI";
+	const session = await getPageSession();
+	const sessionPerson = session.user
+		? await getPersonByEmail(session.user)
+		: null;
+	let rootId = searchParams.person ?? sessionPerson?.id ?? "HhMd8ezTTI";
 	const person = await getPerson(rootId);
 	console.log({ rootId });
+
+	const people = await getPeople();
 	const parentsTree = buildParentsTreeFrom(people, rootId);
 	const childrenTree = buildChildrenTreeFrom(people, rootId);
 	console.log(childrenTree);

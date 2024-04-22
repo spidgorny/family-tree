@@ -3,6 +3,7 @@ import { getIronSession } from "iron-session";
 import invariant from "tiny-invariant";
 import { getDb } from "../../../lib/pg-sql/db-config";
 import { PersonRow } from "../../../test/types";
+import { cookies } from "next/headers";
 
 export async function getMySession(req: NextApiRequest, res: NextApiResponse) {
 	invariant(process.env.IRON_PASSWORD, "IRON_PASSWORD is not defined");
@@ -13,6 +14,22 @@ export async function getMySession(req: NextApiRequest, res: NextApiResponse) {
 	});
 	// console.log("session", session);
 	return session;
+}
+
+export async function getPageSession() {
+	invariant(process.env.IRON_PASSWORD, "IRON_PASSWORD is not defined");
+	invariant(process.env.IRON_COOKIE_NAME, "IRON_COOKIE_NAME is not defined");
+	const session = await getIronSession<{ user?: string }>(cookies(), {
+		password: process.env.IRON_PASSWORD,
+		cookieName: process.env.IRON_COOKIE_NAME,
+	});
+	// console.log("session", session);
+	return session;
+}
+
+export async function getPersonByEmail(email: string) {
+	const db = await getDb();
+	return await db.people.selectOne({ email });
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
