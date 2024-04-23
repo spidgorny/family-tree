@@ -1,5 +1,5 @@
 "use client";
-import { ApexTree } from "apextree/src/apextree";
+import { ApexTree } from "apextree/src/apextree.ts";
 import { useEffect, useRef } from "react";
 import { Node } from "apextree/src/models";
 import { TreeDirection, TreeOptions } from "apextree/src/settings/Options";
