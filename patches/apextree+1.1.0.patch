@@ -19,7 +19,7 @@ index 734ff9b..8daebe9 100644
  export class Export {
    constructor(public graph: Graph) {}
 diff --git a/node_modules/apextree/src/models/Graph.ts b/node_modules/apextree/src/models/Graph.ts
-index af2839b..14f7c65 100644
+index af2839b..eee8f86 100644
 --- a/node_modules/apextree/src/models/Graph.ts
 +++ b/node_modules/apextree/src/models/Graph.ts
 @@ -1,24 +1,24 @@
@@ -54,6 +54,35 @@ index af2839b..14f7c65 100644
  
  export interface GraphPoint {
    readonly x: number;
+@@ -36,6 +36,11 @@ export interface Node {
+ export interface TreeNode<N> extends FlextreeNode<N> {
+   hiddenChildren: Array<TreeNode<N>> | undefined;
+   edge?: Path;
++  readonly data: any;
++  readonly parent: this|null;
++  readonly nodes: this[];
++  children?: this[];
++  descendants: () => this[];
+ }
+ 
+ export class Graph extends Paper {
+@@ -93,7 +98,7 @@ export class Graph extends Paper {
+       nodeBGColor,
+       nodeStyle,
+       nodeClassName,
+-    } = { ...options, ...node.data.options };
++    } = { ...options, ...node.data.options } as TreeOptions;
+     const { x, y } = DirectionConfig[options.direction].swap(node);
+ 
+     const graphInstance = this;
+@@ -101,6 +106,7 @@ export class Graph extends Paper {
+     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
+     const nodeContent = nodeTemplate(
+       node.data[options.contentKey as keyof Node],
++      node.data
+     );
+     const object = Paper.drawTemplate(nodeContent, { nodeWidth, nodeHeight });
+     const groupStyle = generateStyles({
 diff --git a/node_modules/apextree/src/models/Paper.ts b/node_modules/apextree/src/models/Paper.ts
 index cf10b4e..f98bdb8 100644
 --- a/node_modules/apextree/src/models/Paper.ts
@@ -67,6 +96,35 @@ index cf10b4e..f98bdb8 100644
  
  export class Paper {
    private readonly width: number;
+diff --git a/node_modules/apextree/src/models/Toolbar.ts b/node_modules/apextree/src/models/Toolbar.ts
+index 0b644aa..a4f1200 100644
+--- a/node_modules/apextree/src/models/Toolbar.ts
++++ b/node_modules/apextree/src/models/Toolbar.ts
+@@ -1,9 +1,9 @@
+-import ZoomInIcon from 'src/icons/zoom-in-icon.svg';
+-import ZoomOutIcon from 'src/icons/zoom-out-icon.svg';
+-import FitScreenIcon from 'src/icons/fit-screen-icon.svg';
+-import ExportIcon from 'src/icons/export-icon.svg';
+-import {Export} from 'src/models/Export';
+-import {Graph} from 'src/models/index';
++import ZoomInIcon from '../icons/zoom-in-icon.svg';
++import ZoomOutIcon from '../icons/zoom-out-icon.svg';
++import FitScreenIcon from '../icons/fit-screen-icon.svg';
++import ExportIcon from '../icons/export-icon.svg';
++import {Export} from '../models/Export';
++import {Graph} from '../models/index';
+ 
+ export enum ToolbarItem {
+   ZoomIn = 'zoom-in',
+diff --git a/node_modules/apextree/src/models/index.ts b/node_modules/apextree/src/models/index.ts
+index f4c5147..89baed5 100644
+--- a/node_modules/apextree/src/models/index.ts
++++ b/node_modules/apextree/src/models/index.ts
+@@ -1,2 +1,3 @@
+-export {Graph, GraphPoint, Node, TreeNode} from './Graph';
++export {Graph } from './Graph';
++export type { GraphPoint, Node, TreeNode} from './Graph';
+ export {Toolbar} from './Toolbar';
 diff --git a/node_modules/apextree/src/settings/DirectionConfig.ts b/node_modules/apextree/src/settings/DirectionConfig.ts
 index bce3e6c..c6debc8 100644
 --- a/node_modules/apextree/src/settings/DirectionConfig.ts

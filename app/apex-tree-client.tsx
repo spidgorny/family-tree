@@ -28,7 +28,7 @@ export default function ApexTreeClient(props: {
 				return `<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;'>
 <div style="flex-grow: 1"><a href="?person=${node?.id}" style="text-decoration: none;">${content}</a></div>
 <div style="min-height: 0.5em; width: 100%; background-color: ${node?.sex === "1" ? "#8dd7fe" : "#e0b9fe"}; font-size: 10pt">
-<a href="/person/${node?.id}">&gt; more</a>
+<a href="/person/${node?.id}" style="text-decoration: none">&gt; more</a>
 </div></div>`;
 			},
 			nodeBGColor: "#ffffff",
