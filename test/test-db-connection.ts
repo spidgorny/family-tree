@@ -5,5 +5,5 @@ import { PersonRow } from "./types";
 void runTest(async () => {
 	const db = await getDb();
 	let person = (await db.people.selectOne({})) as PersonRow;
-	console.log(person);
+	console.log(person.id, person.fullname);
 });

@@ -44,3 +44,11 @@ export interface PersonRow {
 export interface PersonRowNormalized extends PersonRow {
 	spouse: Spouse[];
 }
+
+export interface CommentRow {
+	id: string;
+	id_person: string;
+	created_at: Date;
+	created_by: string;
+	bodytext: string;
+}

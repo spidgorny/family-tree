@@ -1,12 +1,12 @@
 import { TableRef } from "./table-ref";
-import { Pool } from "pg";
+import { IClient } from "pg-promise/typescript/pg-subset";
 
 export class PostgresConnector {
 	alive = true;
-	connection: Pool;
+	connection: IClient;
 	connectionName: string;
 
-	constructor(connection: Pool, connectionName?: string) {
+	constructor(connection: IClient, connectionName?: string) {
 		this.connection = connection;
 		this.connectionName = connectionName ?? process.env.DB_SERVER ?? "default";
 		this.alive = true;
@@ -23,7 +23,7 @@ export class PostgresConnector {
 		//console.log('close', this.connectionName);
 		//console.log('='.repeat(75));
 		this.alive = false;
-		await this.connection.end();
+		this.connection.release();
 	}
 
 	isAlive() {

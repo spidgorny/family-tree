@@ -8,7 +8,7 @@ import {
 import invariant from "tiny-invariant";
 import { PostgresConnector } from "./postgres-connector";
 
-export class TableRef {
+export class TableRef<RowType extends { id: string | number }> {
 	TABLE: string;
 	db: PostgresConnector;
 
@@ -18,15 +18,14 @@ export class TableRef {
 	}
 
 	async query(sql: string, args: any[] = []) {
-		return this.db.query(sql, args);
+		return this.db.query(sql, args) as unknown as Promise<RowType[]>;
 	}
 
 	async select(where: Where, options: SqlOptions = {}) {
 		const query = getSelectQuery(this.TABLE, where, options);
 		// console.log(query.query);
 		const res = await this.db.query(query.query, query.values);
-		// console.log(res);
-		return res.rows;
+		return res as unknown as RowType[];
 	}
 
 	async selectOne(where: Where, options: SqlOptions = {}) {
@@ -34,8 +33,7 @@ export class TableRef {
 			...options,
 			size: 1,
 		});
-		// console.log(query.query);
-		return rows[0];
+		return rows[0] as RowType;
 	}
 
 	async insert(data: UpdateSet) {
@@ -47,10 +45,9 @@ export class TableRef {
 	async insertAndSelect(data: UpdateSet) {
 		const query = getInsertQuery(this.TABLE, data);
 		query.query = query.query.slice(0, -1) + " RETURNING id"; // only Postgres
-		console.log(query.query, query.values);
 		const res = await this.db.query(query.query, query.values);
-		console.log(res);
-		return this.selectOne({ id: res.rows[0].id });
+		let firstRow = res.rows[0] as RowType;
+		return this.selectOne({ id: firstRow.id });
 	}
 
 	async update(data: UpdateSet, where: Where) {

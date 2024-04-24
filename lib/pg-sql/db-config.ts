@@ -1,17 +1,19 @@
 import { PostgresConnector } from "./postgres-connector";
-import * as pg from "pg";
 import invariant from "tiny-invariant";
 import { MagicPgTable } from "./magic-pg-table";
-import type { Pool } from "pg";
+import PgPromise, { IInitOptions, IMain } from "pg-promise";
+import { IClient, IConnection } from "pg-promise/typescript/pg-subset";
 
-let dbConnection: Pool;
+let dbConnection: IClient;
 
 export async function getDb(): Promise<MagicPgTable> {
 	invariant(process.env.POSTGRES_HOST, "process.env.POSTGRES_HOST");
 	if (!dbConnection) {
 		console.log("connecting to", process.env.POSTGRES_HOST);
 		// @ts-ignore
-		dbConnection = new pg.default.Pool({
+		let PGMain = PgPromise() as IClient;
+		// @ts-ignore
+		dbConnection = PGMain({
 			user: process.env.POSTGRES_USER,
 			host: process.env.POSTGRES_HOST,
 			database: process.env.POSTGRES_DATABASE,
@@ -19,8 +21,10 @@ export async function getDb(): Promise<MagicPgTable> {
 			ssl: {
 				rejectUnauthorized: false,
 			},
-		});
+			schema: ["family-tree"],
+		} as IInitOptions);
 	}
+	// console.log({ dbConnection });
 	await dbConnection.query("SET search_path TO 'family-tree'");
 	const connector = new PostgresConnector(dbConnection);
 	// logger.info(' -- connected');

@@ -9,10 +9,11 @@ import { EditPersonPane } from "./edit-person-pane";
 import { AddChildPane } from "./add-child-pane";
 import { AddParentPane } from "./add-parent-pane";
 import invariant from "tiny-invariant";
+import { CommentList } from "./comment-list.tsx";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
-export default async function PersonPage(props: any) {
+export default async function PersonPage(props: { params: { id: string } }) {
 	const id = props.params.id;
 	const person = await getPerson(id);
 	invariant(person, `person not found by id=[${id}]`);
@@ -96,6 +97,8 @@ export default async function PersonPage(props: any) {
 					</div>
 				</div>
 			))}
+
+			<CommentList person={person} />
 
 			<pre className="bg-gray-500 p-2 my-3" style={{ fontSize: "8pt" }}>
 				{JSON.stringify(person, null, 2)}
