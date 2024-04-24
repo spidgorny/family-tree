@@ -17,7 +17,7 @@ export async function ClickableFace(props: { id: string }) {
 						alt="Face"
 					/>
 				) : (
-					<Image src={`/vercel.svg`} width={64} height={64} alt="No Face" />
+					<Image src={`/noface.png`} width={64} height={64} alt="No Face" />
 				)}
 			</Link>
 			<div>

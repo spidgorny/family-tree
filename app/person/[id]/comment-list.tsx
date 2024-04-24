@@ -1,6 +1,7 @@
 import { PersonRowNormalized } from "../../../test/types.ts";
 import { getDb } from "../../../lib/pg-sql/db-config.ts";
-import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
+import { AddCommentPane } from "./add-comment-pane.tsx";
+import { RenderComment } from "./render-comment.tsx";
 
 export async function CommentList(props: { person: PersonRowNormalized }) {
 	let db = await getDb();
@@ -13,14 +14,16 @@ export async function CommentList(props: { person: PersonRowNormalized }) {
 		},
 	);
 	return (
-		<div>
+		<div className="bg-body-secondary rounded p-3">
 			<div className="d-flex justify-content-between">
 				<h4>Comments</h4>
-				<SaveButton>Add Comment</SaveButton>
+				<AddCommentPane person={props.person} />
 			</div>
-			<ul>
+			<ul className="list-unstyled">
 				{comments.map((el) => (
-					<li key={el.id}>{el.created_at.toISOString()}</li>
+					<li key={el.id}>
+						<RenderComment el={el} />
+					</li>
 				))}
 			</ul>
 		</div>

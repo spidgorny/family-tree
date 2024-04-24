@@ -10,6 +10,7 @@ import { AddChildPane } from "./add-child-pane";
 import { AddParentPane } from "./add-parent-pane";
 import invariant from "tiny-invariant";
 import { CommentList } from "./comment-list.tsx";
+import { utcDate } from "../../../lib/date.ts";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
@@ -28,10 +29,10 @@ export default async function PersonPage(props: { params: { id: string } }) {
 		"Middle Name": person.mn,
 		Surname: person.sn,
 		Occupation: person.occu,
-		Birthday: `${person.bfdate?.toISOString().substring(0, 10) ?? ""} ${age}`,
+		Birthday: `${utcDate(person.bfdate)} ${age}`,
 		Location: person.pl_full,
 		Email: person.email,
-		Deathday: `${person.dfdate?.toISOString().substring(0, 10) ?? ""} ${yearsSinceDeath}`,
+		Deathday: `${utcDate(person.dfdate)} ${yearsSinceDeath}`,
 		"Death reason": person.dreason,
 	};
 	const spouseList = person.spouse
@@ -68,7 +69,7 @@ export default async function PersonPage(props: { params: { id: string } }) {
 						alt="Face"
 					/>
 				) : (
-					<Image src={`/vercel.svg`} width={256} height={256} alt="No Face" />
+					<div className="border rounded" style={{ width: 256, height: 256 }} />
 				)}
 				<SimpleTable props={personProps} />
 			</div>

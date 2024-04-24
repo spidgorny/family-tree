@@ -3,8 +3,13 @@
 import { getDb } from "../../../lib/pg-sql/db-config";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
-import { PersonRow, PersonRowNormalized } from "../../../test/types";
+import {
+	CommentRow,
+	PersonRow,
+	PersonRowNormalized,
+} from "../../../test/types";
 import invariant from "tiny-invariant";
+import { getMySession, getPageSession } from "../../../pages/api/auth/login.ts";
 
 export async function savePerson(id: string, formData: FormData) {
 	const data = Object.fromEntries(formData.entries()) as Record<string, any>;
@@ -195,6 +200,25 @@ export async function addPerson(formData: FormData) {
 		...data,
 	};
 	await db.people.insert(newPerson);
+	revalidatePath(`/person/[id]`);
+	return "ok";
+}
+
+export async function addComment(personId: string, formData: FormData) {
+	const session = await getPageSession();
+	const data = Object.fromEntries(formData.entries()) as Partial<CommentRow>;
+	console.log(data);
+	invariant(personId, "empty personId");
+	invariant(data.bodytext, "empty comment?");
+	const db = await getDb();
+	let newComment = {
+		id: nanoid(10),
+		id_person: personId,
+		created_by: session.user,
+		created_at: new Date(),
+		...data,
+	};
+	await db.comments.insert(newComment);
 	revalidatePath(`/person/[id]`);
 	return "ok";
 }
