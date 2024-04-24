@@ -1,20 +1,27 @@
 "use client";
-import { ApexTree } from "apextree/src/apextree.ts";
+import { ApexTree } from "../components/apextree/ApexTree";
 import { useEffect, useRef } from "react";
-import { Node } from "apextree/src/models";
-import { TreeDirection, TreeOptions } from "apextree/src/settings/Options";
+import { Node } from "../components/apextree/models";
+import {
+	TreeDirection,
+	TreeOptions,
+} from "../components/apextree/settings/Options";
 import { PersonRowNormalized } from "../test/types";
+import { useRouter } from "next/navigation";
 
 export default function ApexTreeClient(props: {
 	id: string;
 	data: Node;
 	direction?: TreeDirection;
 }) {
+	const router = useRouter();
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
+		// @ts-ignore
+		window.nextRouter = router;
 		const options = {
-			width: 1024,
+			width: ref.current?.offsetWidth ?? 800,
 			height: 1024,
 			nodeWidth: 120,
 			nodeHeight: 80,
@@ -24,9 +31,9 @@ export default function ApexTreeClient(props: {
 			canvasStyle: "border: 1px solid black; background: #f6f6f6;",
 			enableToolbar: false,
 			nodeTemplate: (content: string, node: Node & PersonRowNormalized) => {
-				console.log(node);
+				// console.log(node);
 				return `<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;'>
-<div style="flex-grow: 1"><a href="?person=${node?.id}" style="text-decoration: none;">${content}</a></div>
+<div style="flex-grow: 1"><a href="?person=${node?.id}" style="text-decoration: none;" class="CleverLink">${content}</a></div>
 <div style="min-height: 0.5em; width: 100%; background-color: ${node?.sex === "1" ? "#8dd7fe" : "#e0b9fe"}; font-size: 10pt">
 <a href="/person/${node?.id}" style="text-decoration: none">&gt; more</a>
 </div></div>`;
@@ -50,9 +57,29 @@ export default function ApexTreeClient(props: {
 		if (!svgTreeDiv) {
 			return;
 		}
+		svgTreeDiv.innerHTML = "";
 		const tree = new ApexTree(svgTreeDiv, options);
-		const graph = tree.render(props.data);
-		console.log(graph);
+		tree.render(props.data);
+		// console.log(graph);
+		let listener = (e: Event) => {
+			e.preventDefault();
+			let target = e.target as HTMLAnchorElement;
+			console.log("clicked", target);
+			let href = target.getAttribute("href");
+			if (!href) {
+				return;
+			}
+			// @ts-ignore
+			window.nextRouter.push(href);
+		};
+		[...document.querySelectorAll("a.CleverLink")].map((aHref) => {
+			aHref.addEventListener("click", listener);
+		});
+		return () => {
+			[...document.querySelectorAll("a.CleverLink")].map((aHref) => {
+				aHref.removeEventListener("click", listener);
+			});
+		};
 	}, []);
 
 	return (

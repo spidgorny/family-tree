@@ -22,13 +22,13 @@ export default async function Home({
 		: null;
 	let rootId = searchParams.person ?? sessionPerson?.id ?? "HhMd8ezTTI";
 	const person = await getPerson(rootId);
-	console.log({ rootId });
+	// console.log({ rootId });
 	invariant(person, "Person not found");
 
 	const people = await getPeople();
 	const parentsTree = buildParentsTreeFrom(people, rootId);
 	const childrenTree = buildChildrenTreeFrom(people, rootId);
-	console.log(childrenTree);
+	// console.log(childrenTree);
 	return (
 		<div className="my-3">
 			<div className="d-flex justify-content-between my-3">
@@ -38,9 +38,14 @@ export default async function Home({
 				</a>
 			</div>
 			<h5>Parents:</h5>
-			<ApexTreeClient id="1" data={parentsTree} />
+			<ApexTreeClient key={rootId + "1"} id="1" data={parentsTree} />
 			<h5>Children:</h5>
-			<ApexTreeClient id="2" data={childrenTree} direction="top" />
+			<ApexTreeClient
+				key={rootId + "2"}
+				id="2"
+				data={childrenTree}
+				direction="top"
+			/>
 			<Json data={parentsTree} />
 		</div>
 	);
