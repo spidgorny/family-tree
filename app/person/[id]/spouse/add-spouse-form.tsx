@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import { addPerson, addSpouse } from "./form-actions";
+import { addPerson, addSpouse } from "../form-actions.ts";
 
 export function AddSpouseForm(props: { to: string; onClose: () => void }) {
 	return (

@@ -3,7 +3,7 @@
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useState } from "react";
 import SlidingPane from "react-sliding-pane";
-import { SelectParent } from "./select-person";
+import { SelectParent } from "./edit/select-person.tsx";
 
 export function AddParentPane(props: {
 	id: string;

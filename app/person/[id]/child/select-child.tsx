@@ -1,9 +1,9 @@
 "use client";
 
-import { PersonRow } from "../../../test/types";
+import { PersonRow } from "../../../../test/types.ts";
 import { useFormStatus } from "react-dom";
-import { addChild } from "./form-actions";
-import { usePeople } from "./use-people";
+import { addChild } from "../form-actions.ts";
+import { usePeople } from "../../../../components/use-people.tsx";
 
 export function SelectChild(props: {
 	to: string;

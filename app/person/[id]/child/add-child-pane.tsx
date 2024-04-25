@@ -3,8 +3,8 @@
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useState } from "react";
 import SlidingPane from "react-sliding-pane";
-import { SelectChild } from "./select-child";
-import { AddAnyPerson } from "./add-spouse-form";
+import { SelectChild } from "./select-child.tsx";
+import { AddAnyPerson } from "../spouse/add-spouse-form.tsx";
 
 export function AddChildPane(props: { id: string; spouseId: string }) {
 	const [state, setState] = useState(false);

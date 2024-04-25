@@ -2,7 +2,7 @@
 import { PersonLink } from "./person-link";
 import { useContext } from "react";
 import { SearchContext } from "./search-context";
-import { usePeople } from "./person/[id]/use-people";
+import { usePeople } from "../components/use-people.tsx";
 
 export function PeopleList() {
 	const context = useContext(SearchContext);

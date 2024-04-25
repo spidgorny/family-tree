@@ -1,27 +1,24 @@
 "use client";
 
-import { PersonRow } from "../../../test/types";
+import { PersonRow } from "../../../../test/types.ts";
 import { useFormStatus } from "react-dom";
-import { addChild, addParent } from "./form-actions";
-import { usePeople } from "./use-people";
+import { appendSpouse } from "../form-actions.ts";
+import { usePeople } from "../../../../components/use-people.tsx";
 
-export function SelectParent(props: {
-	to: string;
-	type: "father" | "mother";
-	onClose: () => void;
-}) {
+export function SelectSpouse(props: { to: string; onClose: () => void }) {
 	let { people } = usePeople();
 	people = people.filter((x) => x.id !== props.to);
 	const { pending } = useFormStatus();
+	const addSpouseWithTo = appendSpouse.bind(null, props.to);
 	return (
 		<form
 			action={async (formData: FormData) => {
 				console.log(formData);
-				await addParent(props.to, props.type, formData);
+				addSpouseWithTo(formData);
 				props.onClose();
 			}}
 		>
-			<select name="parentId" className="form-control">
+			<select name="spouseId" className="form-control">
 				{people.map((person: PersonRow) => (
 					<option key={person.id} value={person.id}>
 						{person.fullname}

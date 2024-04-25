@@ -1,5 +1,5 @@
-import { PersonRowNormalized } from "../../../test/types.ts";
-import { getDb } from "../../../lib/pg-sql/db-config.ts";
+import { PersonRowNormalized } from "../../../../test/types.ts";
+import { getDb } from "../../../../lib/pg-sql/db-config.ts";
 import { AddCommentPane } from "./add-comment-pane.tsx";
 import { RenderComment } from "./render-comment.tsx";
 

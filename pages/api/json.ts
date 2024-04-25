@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as fs from "fs/promises";
 import { parseStringPromise } from "xml2js";
-import { serverPath } from "../../lib/next-js";
+import { serverPath } from "../../lib/common/next-js.ts";
 
 export default async function handler(
 	req: NextApiRequest,

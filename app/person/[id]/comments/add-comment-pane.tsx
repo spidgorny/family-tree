@@ -2,11 +2,11 @@
 import { useState } from "react";
 import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 import SlidingPane from "react-sliding-pane";
-import { PersonRowNormalized } from "../../../test/types.ts";
-import { addComment, addPerson } from "./form-actions.ts";
-import { NewPersonForm } from "./add-spouse-form.tsx";
+import { PersonRowNormalized } from "../../../../test/types.ts";
+import { addComment, addPerson } from "../form-actions.ts";
+import { NewPersonForm } from "../spouse/add-spouse-form.tsx";
 import { useFormStatus } from "react-dom";
-import { useClientSession } from "../../../lib/use-client-session.tsx";
+import { useClientSession } from "../../../../lib/use-client-session.tsx";
 import { useStateObj } from "spidgorny-react-helpers/use-state-obj.tsx";
 import { Alert } from "react-bootstrap";
 

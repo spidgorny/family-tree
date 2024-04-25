@@ -1,16 +1,17 @@
 "use server";
 
 import Image from "next/image";
-import { SimpleTable } from "./simple-table";
-import { ClickableFace } from "./clickable-face";
-import { AddSpousePane } from "./add-spouse-pane";
+import { SimpleTable } from "../../../components/simple-table.tsx";
+import { ClickableFace } from "../../../components/clickable-face.tsx";
+import { AddSpousePane } from "./spouse/add-spouse-pane.tsx";
 import { getPerson } from "./form-actions";
-import { EditPersonPane } from "./edit-person-pane";
-import { AddChildPane } from "./add-child-pane";
+import { EditPersonPane } from "./edit/edit-person-pane.tsx";
+import { AddChildPane } from "./child/add-child-pane.tsx";
 import { AddParentPane } from "./add-parent-pane";
 import invariant from "tiny-invariant";
-import { CommentList } from "./comment-list.tsx";
-import { utcDate } from "../../../lib/date.ts";
+import { CommentList } from "./comments/comment-list.tsx";
+import { utcDate } from "../../../lib/common/date.ts";
+import { PersonImages } from "./photo/person-images.tsx";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
@@ -100,6 +101,7 @@ export default async function PersonPage(props: { params: { id: string } }) {
 			))}
 
 			<CommentList person={person} />
+			<PersonImages person={person} />
 
 			<pre className="bg-gray-500 p-2 my-3" style={{ fontSize: "8pt" }}>
 				{JSON.stringify(person, null, 2)}

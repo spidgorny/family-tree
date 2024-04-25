@@ -3,10 +3,10 @@
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useState } from "react";
 import SlidingPane from "react-sliding-pane";
-import { SelectSpouse } from "./select-spouse";
-import { AddSpouseForm } from "./add-spouse-form";
-import { EditPersonForm } from "./edit-person-form";
-import { PersonRowNormalized } from "../../../test/types";
+import { SelectSpouse } from "../spouse/select-spouse.tsx";
+import { AddSpouseForm } from "../spouse/add-spouse-form.tsx";
+import { EditPersonForm } from "./edit-person-form.tsx";
+import { PersonRowNormalized } from "../../../../test/types.ts";
 
 export function EditPersonPane(props: { person: PersonRowNormalized }) {
 	const [state, setState] = useState(false);

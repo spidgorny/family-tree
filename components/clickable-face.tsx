@@ -1,7 +1,7 @@
-import { PersonRow } from "../../../test/types";
+import { PersonRow } from "../test/types.ts";
 import Link from "next/link";
 import Image from "next/image";
-import { getPerson } from "./form-actions";
+import { getPerson } from "../app/person/[id]/form-actions.ts";
 
 export async function ClickableFace(props: { id: string }) {
 	const person = (await getPerson(props.id)) as PersonRow;
@@ -15,6 +15,7 @@ export async function ClickableFace(props: { id: string }) {
 						width={64}
 						height={64}
 						alt="Face"
+						className="rounded-circle"
 					/>
 				) : (
 					<Image src={`/noface.png`} width={64} height={64} alt="No Face" />

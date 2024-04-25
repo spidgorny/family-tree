@@ -1,6 +1,6 @@
 "use client";
 import useSWR from "swr";
-import { fetcher } from "../lib/fetcher";
+import { fetcher } from "./common/fetcher.tsx";
 import { useEffect, useState } from "react";
 
 export interface ClientSession {

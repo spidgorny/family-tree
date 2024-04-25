@@ -1,9 +1,9 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
-import { savePerson } from "./form-actions";
-import { PersonRowNormalized } from "../../../test/types";
-import { utcDate } from "../../../lib/date";
+import { savePerson } from "../form-actions.ts";
+import { PersonRowNormalized } from "../../../../test/types.ts";
+import { utcDate } from "../../../../lib/common/date.ts";
 
 export function EditPersonForm(props: {
 	person: PersonRowNormalized;

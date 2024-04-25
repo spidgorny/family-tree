@@ -3,8 +3,8 @@
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useState } from "react";
 import SlidingPane from "react-sliding-pane";
-import { SelectSpouse } from "./select-spouse";
-import { AddSpouseForm } from "./add-spouse-form";
+import { SelectSpouse } from "./select-spouse.tsx";
+import { AddSpouseForm } from "./add-spouse-form.tsx";
 
 export function AddSpousePane(props: { to: string }) {
 	const [state, setState] = useState(false);

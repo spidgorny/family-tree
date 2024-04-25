@@ -13,6 +13,8 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.563.0",
+    "@aws-sdk/lib-storage": "^3.563.0",
     "@balkangraph/familytree.js": "^1.9.35",
     "@svgdotjs/svg.js": "^3.2.0",
     "@svgdotjs/svg.panzoom.js": "^2.1.2",
@@ -22,6 +24,7 @@
     "aws-sdk-v3-proxy": "^2.1.2",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "bytes": "^3.1.2",
     "classnames": "^2.5.1",
     "d3-flextree": "^2.1.2",
     "directory-tree": "^3.5.1",
@@ -37,6 +40,7 @@
     "react": "18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "18.2.0",
+    "react-drag-drop-files": "^2.3.10",
     "react-sliding-pane": "^7.3.0",
     "spidgorny-react-helpers": "https://github.com/spidgorny/react-helpers",
     "swr": "^2.2.5",

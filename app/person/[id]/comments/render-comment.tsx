@@ -1,7 +1,7 @@
 "use client";
-import { CommentRow } from "../../../test/types.ts";
-import { usePeople } from "./use-people.tsx";
-import { utcDate } from "../../../lib/date.ts";
+import { CommentRow } from "../../../../test/types.ts";
+import { usePeople } from "../../../../components/use-people.tsx";
+import { utcDate } from "../../../../lib/common/date.ts";
 import Image from "next/image";
 
 export function RenderComment(props: { el: CommentRow }) {
@@ -16,6 +16,7 @@ export function RenderComment(props: { el: CommentRow }) {
 						width={64}
 						height={64}
 						alt="Face"
+						className="rounded-circle"
 					/>
 				) : (
 					<Image src={`/noface.png`} width={64} height={64} alt="No Face" />
