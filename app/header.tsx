@@ -5,15 +5,26 @@ import Link from "next/link";
 import { useClientSession } from "../lib/use-client-session";
 import { SearchContext } from "./search-context";
 import { SlidingPaneAutoWidth } from "../components/sliding-page-auto-width.tsx";
+import { useMediaQuery } from "usehooks-ts";
 
 export function MainHeader() {
+	const isLargeScreen = useMediaQuery("(min-width: 768px)");
 	return (
-		<header className="bg-dark p-2 d-flex justify-content-between">
-			<h4>
-				<Link href="/" className="text-decoration-none text-white">
-					🌲 Family Tree
-				</Link>
-			</h4>
+		<header className="bg-dark p-2 d-flex justify-content-between gap-2 pe-2">
+			{!isLargeScreen && (
+				<h4 className="fs-6">
+					<Link href="/" className="text-decoration-none text-white">
+						🌲 Family Tree
+					</Link>
+				</h4>
+			)}
+			{isLargeScreen && (
+				<h4 className="fs-4">
+					<Link href="/" className="text-decoration-none text-white">
+						🌲 Family Tree
+					</Link>
+				</h4>
+			)}
 			<LoginGuard blank={true}>
 				<SearchForm />
 			</LoginGuard>

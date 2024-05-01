@@ -15,11 +15,13 @@ export async function SpouseAndChildrenInfo(props: {
 			<div style={{ flex: 1 }}>
 				{props.spouseData.id && <ClickableFace id={props.spouseData.id} />}
 			</div>
-			<div style={{ flex: 1 }}>
+			<div style={{ flex: 1 }} className="">
 				{props.spouseData.child?.map((child) => (
 					<ClickableFace key={child.id} id={child.id} />
 				))}
-				<AddChildPane id={props.person.id} spouse={spousePerson} />
+				<div className="mt-3">
+					<AddChildPane id={props.person.id} spouse={spousePerson} />
+				</div>
 			</div>
 		</div>
 	);

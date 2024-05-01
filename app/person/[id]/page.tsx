@@ -56,13 +56,13 @@ export default async function PersonPage(props: { params: { id: string } }) {
 				</div>
 			</div>
 
-			<div className="d-flex justify-content-between align-items-center">
+			<div className="d-flex justify-content-between align-items-center mb-3">
 				<h1>
 					{person.sex === "1" ? "♂️" : "♀️"} {person?.fullname}
 				</h1>
 				<EditPersonPane person={person} />
 			</div>
-			<div className="d-flex gap-3">
+			<div className="d-flex gap-3 flex-column flex-md-row align-items-center">
 				{person.doc?.preview ? (
 					<Image
 						src={`data:image/png;base64,${person.doc.preview}`}
@@ -76,12 +76,14 @@ export default async function PersonPage(props: { params: { id: string } }) {
 				<SimpleTable props={personProps} />
 			</div>
 
-			<pre
-				style={{ whiteSpace: "pre-wrap", backgroundColor: "#888" }}
-				className="p-1"
-			>
-				{person.comment}
-			</pre>
+			{person.comment && (
+				<pre
+					style={{ whiteSpace: "pre-wrap", backgroundColor: "#888" }}
+					className="p-1"
+				>
+					{person.comment}
+				</pre>
+			)}
 
 			<div className="d-flex justify-content-between align-items-center">
 				<h4 className="mt-3">Descendants</h4>
@@ -95,7 +97,7 @@ export default async function PersonPage(props: { params: { id: string } }) {
 				/>
 			))}
 
-			<CommentList person={person} />
+			<CommentList person={person} className="mb-3" />
 			<PersonImages person={person} />
 
 			<pre className="bg-gray-500 p-2 my-3" style={{ fontSize: "8pt" }}>

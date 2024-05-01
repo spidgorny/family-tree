@@ -3,7 +3,10 @@ import { getDb } from "../../../../lib/pg-sql/db-config.ts";
 import { AddCommentPane } from "./add-comment-pane.tsx";
 import { RenderComment } from "./render-comment.tsx";
 
-export async function CommentList(props: { person: PersonRowNormalized }) {
+export async function CommentList(props: {
+	person: PersonRowNormalized;
+	className?: string;
+}) {
 	let db = await getDb();
 	const comments = await db.comments.select(
 		{
@@ -14,7 +17,9 @@ export async function CommentList(props: { person: PersonRowNormalized }) {
 		},
 	);
 	return (
-		<div className="bg-body-secondary rounded p-3">
+		<div
+			className={"bg-body-secondary text-dark rounded p-3 " + props.className}
+		>
 			<div className="d-flex justify-content-between">
 				<h4>Comments</h4>
 				<AddCommentPane person={props.person} />

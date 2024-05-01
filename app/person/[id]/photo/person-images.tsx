@@ -12,7 +12,7 @@ export function PersonImages(props: { person: PersonRowNormalized }) {
 	const { data: currentPhotos } = useFiles(props.person.id);
 
 	return (
-		<div>
+		<div className="p-3 bg-white rounded">
 			{session.user && <DropArea prefix={props.person.id} />}
 
 			{currentPhotos.map((x) => {
