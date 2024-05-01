@@ -1,9 +1,11 @@
 "use client";
 
-import { PersonRow } from "../../../../test/types.ts";
 import { useFormStatus } from "react-dom";
 import { addChild } from "../form-actions.ts";
 import { usePeople } from "../../../../components/use-people.tsx";
+import { Combobox, DropdownList } from "react-widgets/esm";
+import "react-widgets/styles.css";
+import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 
 export function SelectChild(props: {
 	to: string;
@@ -21,16 +23,17 @@ export function SelectChild(props: {
 				props.onClose();
 			}}
 		>
-			<select name="childId" className="form-control">
-				{people.map((person: PersonRow) => (
-					<option key={person.id} value={person.id}>
-						{person.fullname}
-					</option>
-				))}
-			</select>
-			<button type="submit" className="btn btn-primary" disabled={pending}>
+			<DropdownList
+				name="childId"
+				data={people}
+				textField="fullname"
+				dataKey="id"
+				disabled={pending}
+				className="mb-3"
+			/>
+			<SaveButton type="submit" disabled={pending}>
 				Submit
-			</button>
+			</SaveButton>
 		</form>
 	);
 }

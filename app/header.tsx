@@ -1,11 +1,10 @@
 "use client";
 import axios from "axios";
 import { PropsWithChildren, useContext, useEffect, useState } from "react";
-import SlidingPane from "react-sliding-pane";
 import Link from "next/link";
 import { useClientSession } from "../lib/use-client-session";
 import { SearchContext } from "./search-context";
-import "react-sliding-pane/dist/react-sliding-pane.css";
+import { SlidingPaneAutoWidth } from "../components/sliding-page-auto-width.tsx";
 
 export function MainHeader() {
 	return (
@@ -15,8 +14,8 @@ export function MainHeader() {
 					🌲 Family Tree
 				</Link>
 			</h4>
-			<LoginGuard blank={true} >
-			<SearchForm />
+			<LoginGuard blank={true}>
+				<SearchForm />
 			</LoginGuard>
 			<SignInOrOut />
 		</header>
@@ -50,39 +49,26 @@ function SignIn(props: { onSuccess: () => void }) {
 			>
 				Sign In
 			</button>
-			<SlidingPane
+			<SlidingPaneAutoWidth
+				title="Sign-in with email + date of birth"
 				isOpen={openPanel}
-				width={"50%"}
 				onRequestClose={() => setOpenPanel(false)}
 			>
-				<div>
-					<style>
-						{`
-						.slide-pane__header {
-							background-color: #888;
-						}
-						.slide-pane__content {
-							background-color: #888;
-						}						
-				`}
-					</style>
-					<div>Sign-in with email:</div>
-					<SignInForm
-						onSuccess={() => {
-							setOpenPanel(false);
-							props.onSuccess();
-						}}
-					/>
-					<div className="py-5 my-5 text-end">
-						<button
-							onClick={() => setOpenPanel(false)}
-							className="btn btn-outline-secondary"
-						>
-							close
-						</button>
-					</div>
+				<SignInForm
+					onSuccess={() => {
+						setOpenPanel(false);
+						props.onSuccess();
+					}}
+				/>
+				<div className="py-5 my-5 text-end">
+					<button
+						onClick={() => setOpenPanel(false)}
+						className="btn btn-outline-secondary"
+					>
+						close
+					</button>
 				</div>
-			</SlidingPane>
+			</SlidingPaneAutoWidth>
 		</div>
 	);
 }
@@ -165,14 +151,14 @@ function SearchForm() {
 	);
 }
 
-export function LoginGuard(props: PropsWithChildren<{blank?: boolean}>) {
+export function LoginGuard(props: PropsWithChildren<{ blank?: boolean }>) {
 	const session = useClientSession();
 	if (session.user) {
 		return props.children;
 	}
 
 	if (props.blank) {
-		return '';
+		return "";
 	}
 
 	return (

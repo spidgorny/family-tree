@@ -21,6 +21,8 @@ import { StreamingBlobPayloadOutputTypes } from "@smithy/types";
 import { onlyOncePerSecond } from "./common/date";
 import bytes from "bytes";
 
+const logger = new Logger("S3Storage");
+
 export interface S3File {
 	key: string;
 	size: number;
@@ -123,7 +125,7 @@ export class S3Storage {
 	}
 
 	async downloadS3File(Key: string, filePath: string, fileSize?: number) {
-		// logger.log("GET", bucketName, Key);
+		logger.log("GET", Key, "save to", filePath);
 
 		const params: GetObjectCommandInput = {
 			Bucket: this.bucketName,

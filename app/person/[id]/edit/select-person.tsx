@@ -4,6 +4,7 @@ import { PersonRow } from "../../../../test/types.ts";
 import { useFormStatus } from "react-dom";
 import { addChild, addParent } from "../form-actions.ts";
 import { usePeople } from "../../../../components/use-people.tsx";
+import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 
 export function SelectParent(props: {
 	to: string;
@@ -28,9 +29,9 @@ export function SelectParent(props: {
 					</option>
 				))}
 			</select>
-			<button type="submit" className="btn btn-primary" disabled={pending}>
+			<SaveButton type="submit" disabled={pending}>
 				Submit
-			</button>
+			</SaveButton>
 		</form>
 	);
 }

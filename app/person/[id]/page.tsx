@@ -12,6 +12,7 @@ import invariant from "tiny-invariant";
 import { CommentList } from "./comments/comment-list.tsx";
 import { utcDate } from "../../../lib/common/date.ts";
 import { PersonImages } from "./photo/person-images.tsx";
+import { SpouseAndChildrenInfo } from "./spouse-and-children-info.tsx";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
@@ -87,17 +88,11 @@ export default async function PersonPage(props: { params: { id: string } }) {
 				<AddSpousePane to={person.id} />
 			</div>
 			{spouseList.map((spouse) => (
-				<div className="d-flex gap-3 mb-3" key={spouse.id}>
-					<div style={{ flex: 1 }}>
-						{spouse?.id && <ClickableFace id={spouse.id} />}
-					</div>
-					<div style={{ flex: 1 }}>
-						{spouse.child?.map((child) => (
-							<ClickableFace key={child.id} id={child.id} />
-						))}
-						<AddChildPane id={person.id} spouseId={spouse.id} />
-					</div>
-				</div>
+				<SpouseAndChildrenInfo
+					person={person}
+					spouseData={spouse}
+					key={spouse.id}
+				/>
 			))}
 
 			<CommentList person={person} />

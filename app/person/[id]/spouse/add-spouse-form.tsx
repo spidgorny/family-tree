@@ -2,6 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 import { addPerson, addSpouse } from "../form-actions.ts";
+import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 
 export function AddSpouseForm(props: { to: string; onClose: () => void }) {
 	return (
@@ -54,9 +55,9 @@ export function NewPersonForm(props: {}) {
 				Last Name
 				<input name="sn" className="form-control" />
 			</label>
-			<button type="submit" className="btn btn-primary" disabled={pending}>
+			<SaveButton type="submit" disabled={pending}>
 				Submit
-			</button>
+			</SaveButton>
 		</div>
 	);
 }

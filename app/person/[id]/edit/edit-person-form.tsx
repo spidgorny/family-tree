@@ -4,6 +4,7 @@ import { useFormStatus } from "react-dom";
 import { savePerson } from "../form-actions.ts";
 import { PersonRowNormalized } from "../../../../test/types.ts";
 import { utcDate } from "../../../../lib/common/date.ts";
+import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 
 export function EditPersonForm(props: {
 	person: PersonRowNormalized;
@@ -132,9 +133,9 @@ export function EditPersonForm(props: {
 					defaultValue={props.person.dreason}
 				></textarea>
 			</label>
-			<button type="submit" className="btn btn-primary" disabled={pending}>
+			<SaveButton type="submit" disabled={pending}>
 				Submit
-			</button>
+			</SaveButton>
 		</form>
 	);
 }

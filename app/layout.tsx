@@ -13,17 +13,15 @@ export const metadata = {
 
 export default function RootLayout(props: PropsWithChildren) {
 	return (
-		<html lang="en">
+		<html lang="en" data-bs-theme="light">
 			<body>
 				<SearchContextProvider>
 					<MainHeader />
 					<div className="container-fluid">
 						<LoginGuard>
 							<div className="row">
-								<div className="col-3 py-3">
-									<PeopleList />
-								</div>
-								<div className="col-9">{props.children}</div>
+								<PeopleList />
+								<div className="col-12 col-md-9">{props.children}</div>
 							</div>
 						</LoginGuard>
 					</div>

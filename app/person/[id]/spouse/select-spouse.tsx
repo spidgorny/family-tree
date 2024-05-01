@@ -4,6 +4,7 @@ import { PersonRow } from "../../../../test/types.ts";
 import { useFormStatus } from "react-dom";
 import { appendSpouse } from "../form-actions.ts";
 import { usePeople } from "../../../../components/use-people.tsx";
+import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 
 export function SelectSpouse(props: { to: string; onClose: () => void }) {
 	let { people } = usePeople();
@@ -25,9 +26,9 @@ export function SelectSpouse(props: { to: string; onClose: () => void }) {
 					</option>
 				))}
 			</select>
-			<button type="submit" className="btn btn-primary" disabled={pending}>
+			<SaveButton type="submit" disabled={pending}>
 				Submit
-			</button>
+			</SaveButton>
 		</form>
 	);
 }

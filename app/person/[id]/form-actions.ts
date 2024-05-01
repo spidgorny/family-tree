@@ -150,10 +150,10 @@ export async function addChild(
 		}
 		return spouse;
 	});
-	console.log(spouseList);
+	console.dir(spouseList, { depth: null });
 	await db.people.update(
 		{
-			spouse: spouseList,
+			spouse: JSON.stringify(spouseList, null, 2),
 		},
 		{ id: to },
 	);

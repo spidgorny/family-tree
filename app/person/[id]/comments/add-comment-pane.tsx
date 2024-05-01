@@ -4,11 +4,11 @@ import { SaveButton } from "spidgorny-react-helpers/save-button.tsx";
 import SlidingPane from "react-sliding-pane";
 import { PersonRowNormalized } from "../../../../test/types.ts";
 import { addComment, addPerson } from "../form-actions.ts";
-import { NewPersonForm } from "../spouse/add-spouse-form.tsx";
 import { useFormStatus } from "react-dom";
 import { useClientSession } from "../../../../lib/use-client-session.tsx";
 import { useStateObj } from "spidgorny-react-helpers/use-state-obj.tsx";
 import { Alert } from "react-bootstrap";
+import { SlidingPaneAutoWidth } from "../../../../components/sliding-page-auto-width.tsx";
 
 export function AddCommentPane(props: { person: PersonRowNormalized }) {
 	const [state, setState] = useState(false);
@@ -16,24 +16,13 @@ export function AddCommentPane(props: { person: PersonRowNormalized }) {
 	return (
 		<div>
 			<SaveButton onClick={() => setState(true)}>Add Comment</SaveButton>
-			<SlidingPane
+			<SlidingPaneAutoWidth
 				isOpen={state}
 				title={`Add Comment`}
 				onRequestClose={() => setState(false)}
 			>
-				<style>
-					{`
-						.slide-pane__header {
-							background-color: #888;
-						}
-						.slide-pane__content {
-							background-color: #888;
-						}						
-				`}
-				</style>
-
 				<AddCommentForm person={props.person} onClose={() => setState(false)} />
-			</SlidingPane>
+			</SlidingPaneAutoWidth>
 		</div>
 	);
 }
@@ -57,28 +46,22 @@ function AddCommentForm(props: {
 				}
 			}}
 		>
-			<div>
-				<label className="form-label d-block mb-3">
-					Comment by: <output>{session.user}</output>
-				</label>
-				<label className="form-label d-block mb-3">
-					<textarea
-						name="bodytext"
-						className="form-control"
-						style={{ height: "30em" }}
-					/>
-				</label>
+			<label className="form-label d-block mb-3">
+				Comment by: <output>{session.user}</output>
+			</label>
+			<label className="form-label d-block mb-3">
+				<textarea
+					name="bodytext"
+					className="form-control"
+					style={{ height: "30em" }}
+				/>
+			</label>
 
-				<SaveButton
-					type="submit"
-					className="btn btn-primary"
-					disabled={pending}
-				>
-					Submit
-				</SaveButton>
+			<SaveButton type="submit" className="btn btn-primary" disabled={pending}>
+				Submit
+			</SaveButton>
 
-				<ErrorAlert error={error.value} />
-			</div>
+			<ErrorAlert error={error.value} />
 		</form>
 	);
 }
