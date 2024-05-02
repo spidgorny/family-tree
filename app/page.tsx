@@ -75,6 +75,9 @@ function buildParentsTreeFrom(people: PersonRowNormalized[], rootId: string) {
 		id: rootPerson.id,
 		name: rootPerson.fullname,
 		sex: rootPerson.sex,
+		imageUrl: rootPerson.doc?.preview
+			? `data:image/png;base64,${rootPerson.doc?.preview}`
+			: null,
 		children: [mother, father].filter(Boolean),
 	};
 
@@ -99,6 +102,9 @@ function buildChildrenTreeFrom(people: PersonRowNormalized[], rootId: string) {
 		id: rootPerson.id,
 		name: rootPerson.fullname,
 		sex: rootPerson.sex,
+		imageUrl: rootPerson.doc?.preview
+			? `data:image/png;base64,${rootPerson.doc?.preview}`
+			: null,
 		children,
 	};
 
