@@ -9,7 +9,14 @@ let dbConnection: IClient;
 export async function getDb(): Promise<MagicPgTable> {
 	invariant(process.env.POSTGRES_HOST, "process.env.POSTGRES_HOST");
 	if (!dbConnection) {
-		console.log("connecting to", process.env.POSTGRES_HOST);
+		console.log(
+			"connecting to",
+			process.env.POSTGRES_USER,
+			"@",
+			process.env.POSTGRES_HOST,
+			"/",
+			process.env.POSTGRES_DATABASE,
+		);
 		// @ts-ignore
 		let PGMain = PgPromise() as IClient;
 		// @ts-ignore
