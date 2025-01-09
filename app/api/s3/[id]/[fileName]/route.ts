@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { routeHandler } from "../../../route-handler.ts";
 
 export async function GET(
-	req: NextRequest,
-	{ params }: { params: { id: string; fileName: string } },
+    req: NextRequest,
+    props: { params: Promise<{ id: string; fileName: string }> }
 ) {
-	return routeHandler(req, async () => {
+    const params = await props.params;
+    return routeHandler(req, async () => {
 		const prefix = params.id;
 		const fileName = params.fileName;
 		const s3 = getS3Storage();

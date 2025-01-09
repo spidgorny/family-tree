@@ -19,7 +19,7 @@ export async function getMySession(req: NextApiRequest, res: NextApiResponse) {
 export async function getPageSession() {
 	invariant(process.env.IRON_PASSWORD, "IRON_PASSWORD is not defined");
 	invariant(process.env.IRON_COOKIE_NAME, "IRON_COOKIE_NAME is not defined");
-	const session = await getIronSession<{ user?: string }>(cookies(), {
+	const session = await getIronSession<{ user?: string }>(await cookies(), {
 		password: process.env.IRON_PASSWORD,
 		cookieName: process.env.IRON_COOKIE_NAME,
 	});
@@ -32,7 +32,10 @@ export async function getPersonByEmail(email: string) {
 	return await db.people.selectOne({ email });
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function loginHandler(
+	req: NextApiRequest,
+	res: NextApiResponse,
+) {
 	const session = await getMySession(req, res);
 	const email = req.body.email;
 	invariant(email, "no email provided");
@@ -52,4 +55,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	} else {
 		res.status(400).json({ status: "login denied" });
 	}
-};
+}

@@ -9,27 +9,27 @@ import {
 	getPersonByEmail,
 } from "../pages/api/auth/login";
 
-export default async function Home({
-	params,
-	searchParams,
-}: {
-	params: never;
-	searchParams: { person: string };
-}) {
-	const session = await getPageSession();
-	const sessionPerson = session.user
+export default async function Home(
+    props: {
+        params: Promise<never>;
+        searchParams: Promise<{ person: string }>;
+    }
+) {
+    const searchParams = await props.searchParams;
+    const session = await getPageSession();
+    const sessionPerson = session.user
 		? await getPersonByEmail(session.user)
 		: null;
-	let rootId = searchParams.person ?? sessionPerson?.id ?? "HhMd8ezTTI";
-	const person = await getPerson(rootId);
-	// console.log({ rootId });
-	invariant(person, "Person not found");
+    let rootId = searchParams.person ?? sessionPerson?.id ?? "HhMd8ezTTI";
+    const person = await getPerson(rootId);
+    // console.log({ rootId });
+    invariant(person, "Person not found");
 
-	const people = await getPeople();
-	const parentsTree = buildParentsTreeFrom(people, rootId);
-	const childrenTree = buildChildrenTreeFrom(people, rootId);
-	// console.log(childrenTree);
-	return (
+    const people = await getPeople();
+    const parentsTree = buildParentsTreeFrom(people, rootId);
+    const childrenTree = buildChildrenTreeFrom(people, rootId);
+    // console.log(childrenTree);
+    return (
 		<div className="my-3">
 			<div className="d-flex justify-content-between my-3">
 				<h4>{person.fullname}</h4>

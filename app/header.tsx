@@ -8,7 +8,8 @@ import { SlidingPaneAutoWidth } from "../components/sliding-page-auto-width.tsx"
 import { useMediaQuery } from "usehooks-ts";
 
 export function MainHeader() {
-	const isLargeScreen = useMediaQuery("(min-width: 768px)");
+	const isSSR = typeof window === "undefined";
+	const isLargeScreen = useMediaQuery("(min-width: 768px)") || isSSR;
 	return (
 		<header className="bg-dark p-2 d-flex justify-content-between gap-2 pe-2">
 			{!isLargeScreen && (
@@ -175,7 +176,7 @@ export function LoginGuard(props: PropsWithChildren<{ blank?: boolean }>) {
 	return (
 		<div className="d-flex flex-column align-items-center gap-5 justify-content-center my-5 py-5 border rounded">
 			<p>
-				Here's the family tree of various people related to the family name
+				Here&apos;s the family tree of various people related to the family name
 				Pidgornyy/Sigayeva
 			</p>
 			<SignInOrOut />

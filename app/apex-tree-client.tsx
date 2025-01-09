@@ -36,7 +36,7 @@ export default function ApexTreeClient(props: {
 			) => {
 				// console.log(node);
 				return `<div xmlns="http://www.w3.org/1999/xhtml" style="display:contents; width: 100%; height: 100%;">
-<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%; padding-top: 3px;'>
+<div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%; padding-top: 3px; border: solid 1px silver; border-radius:5px'>
 <div style="flex-grow: 1;">
 ${node.imageUrl ? `<img src="${node.imageUrl}" width="32" height="32" class="rounded-circle d-block mx-auto" alt="face"/>` : `<div class="d-block border rounded-circle mx-auto" style="width:32px; height:32px"></div>`}
 <a href="?person=${node?.id}" style="display: block; font-size: 8pt; text-decoration: none; line-height: 0.9em" class="CleverLink">${content}</a>
@@ -47,6 +47,10 @@ ${node.imageUrl ? `<img src="${node.imageUrl}" width="32" height="32" class="rou
 </div>
 </div>`;
 			},
+			borderColor: "",
+			borderStyle: "",
+			borderWidth: 0,
+			borderRadius: "0",
 			nodeBGColor: "#ffffff",
 			nodeBGColorHover: "#eee",
 			edgeColor: "#BCBCBC",
@@ -61,6 +65,12 @@ ${node.imageUrl ? `<img src="${node.imageUrl}" width="32" height="32" class="rou
 			tooltipBGColor: "#ffffff",
 			fontSize: "10pt",
 			highlightOnHover: false,
+			contentKey: "",
+			containerClassName: "root",
+			nodeStyle: "",
+			nodeClassName: "",
+			borderColorHover: "",
+			enableExpandCollapse: false,
 		} as TreeOptions;
 
 		let svgTreeDiv = ref.current;

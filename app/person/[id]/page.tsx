@@ -16,8 +16,8 @@ import { SpouseAndChildrenInfo } from "./spouse-and-children-info.tsx";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
-export default async function PersonPage(props: { params: { id: string } }) {
-	const id = props.params.id;
+export default async function PersonPage(props: { params: Promise<{ id: string }> }) {
+	const id = (await props.params).id;
 	const person = await getPerson(id);
 	invariant(person, `person not found by id=[${id}]`);
 	let age = person.bfdate

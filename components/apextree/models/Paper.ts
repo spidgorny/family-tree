@@ -30,7 +30,7 @@ export class Paper {
 			.addTo(element)
 			.size(width, height)
 			.viewbox(`0 0 ${width} ${height}`)
-			.panZoom({ zoomFactor: 0.2, zoomMin: 0.1 })
+			// .panZoom({ zoomFactor: 0.2, zoomMin: 0.1 })
 			.attr({
 				style: canvasStyle,
 				"xmlns:xhtml": "http://www.w3.org/1999/xhtml",
@@ -128,7 +128,7 @@ export class Paper {
 			y: 0,
 			class: "apextree-node",
 		});
-		const element = SVG(template);
+		const element = SVG(template, true);
 		element.node.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
 		object.add(element);
 		return object;
