@@ -32,11 +32,12 @@ function AddCommentForm(props: {
 	onClose: () => void;
 }) {
 	const session = useClientSession();
-	const error = useStateObj<Error>();
+	const error = useStateObj<Error | null>(null);
 	const { pending } = useFormStatus();
 	return (
 		<form
 			action={async (formData: FormData) => {
+				error.set(null);
 				try {
 					await addComment(props.person.id, formData);
 					props.onClose();
@@ -66,7 +67,7 @@ function AddCommentForm(props: {
 	);
 }
 
-export function ErrorAlert(props: { error?: Error }) {
+export function ErrorAlert(props: { error?: Error | null }) {
 	if (!props.error) {
 		return null;
 	}
