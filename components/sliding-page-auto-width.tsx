@@ -1,5 +1,5 @@
 import SlidingPane from "react-sliding-pane";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactElement, ReactNode } from "react";
 import "react-sliding-pane/dist/react-sliding-pane.css";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -19,8 +19,9 @@ export function SlidingPaneAutoWidth(
 			width={isLargeScreen ? "50%" : "100%"}
 			onRequestClose={props.onRequestClose}
 		>
-			<style>
-				{`
+			<>
+				<style>
+					{`
 						.slide-pane__header {
 							background-color: #888;
 						}
@@ -28,8 +29,9 @@ export function SlidingPaneAutoWidth(
 							background-color: #888;
 						}						
 				`}
-			</style>
-			{props.children}
+				</style>
+				{props.children}
+			</>
 		</SlidingPane>
 	);
 }

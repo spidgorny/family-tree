@@ -24,7 +24,13 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+//    "typeRoots": [
+//      "./node_modules/@types",
+//      "./node_modules/apextree/index.d.ts",
+//      "./node_modules",
+//      "./components"
+//    ]
   },
   "include": [
     "next-env.d.ts",
