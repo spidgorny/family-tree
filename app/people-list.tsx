@@ -5,14 +5,21 @@ import { SearchContext } from "./search-context";
 import { usePeople } from "../components/use-people.tsx";
 import { PersonRow, PersonRowNormalized } from "../test/types.ts";
 import cx from "classnames";
+import { transliterate as tr, slugify } from "transliteration";
 
 export function PeopleList() {
 	const context = useContext(SearchContext);
 	const { people } = usePeople();
+	let searchString = context.q.toLowerCase();
 	const searchResults = context.q
-		? people.filter((x: PersonRowNormalized) =>
-				x.fullname?.toLowerCase()?.includes(context.q.toLowerCase()),
-			)
+		? people.filter((x: PersonRowNormalized) => {
+				let fullName = x.fullname?.toLowerCase() ?? "";
+				return (
+					fullName.includes(searchString) ||
+					tr(fullName).includes(searchString) ||
+					fullName.includes(tr(searchString))
+				);
+			})
 		: people;
 	return (
 		<div

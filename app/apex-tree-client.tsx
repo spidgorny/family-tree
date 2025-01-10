@@ -65,7 +65,7 @@ ${node.imageUrl ? `<img src="${node.imageUrl}" width="32" height="32" class="rou
 			tooltipBGColor: "#ffffff",
 			fontSize: "10pt",
 			highlightOnHover: false,
-			contentKey: "",
+			// contentKey: props.id,
 			containerClassName: "root",
 			nodeStyle: "",
 			nodeClassName: "",
