@@ -2,7 +2,7 @@ function isValidDate(dateObject) {
 	return new Date(dateObject).toString() !== "Invalid Date";
 }
 
-export function utcDate(now: Date | "") {
+export function utcDate(now: Date | "" | undefined | null) {
 	if (!(now instanceof Date)) {
 		return now;
 	}

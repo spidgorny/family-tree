@@ -16,7 +16,9 @@ import { SpouseAndChildrenInfo } from "./spouse-and-children-info.tsx";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
-export default async function PersonPage(props: { params: Promise<{ id: string }> }) {
+export default async function PersonPage(props: {
+	params: Promise<{ id: string }>;
+}) {
 	const id = (await props.params).id;
 	const person = await getPerson(id);
 	invariant(person, `person not found by id=[${id}]`);
@@ -36,6 +38,7 @@ export default async function PersonPage(props: { params: Promise<{ id: string }
 		Email: person.email,
 		Deathday: `${utcDate(person.dfdate)} ${yearsSinceDeath}`,
 		"Death reason": person.dreason,
+		Edited: utcDate(person.de),
 	};
 	const spouseList = person.spouse
 		? Array.isArray(person.spouse)
@@ -62,7 +65,7 @@ export default async function PersonPage(props: { params: Promise<{ id: string }
 				</h1>
 				<EditPersonPane person={person} />
 			</div>
-			<div className="d-flex gap-3 flex-column flex-md-row align-items-center">
+			<div className="d-flex gap-3 flex-column flex-md-row align-items-start">
 				{person.doc?.preview ? (
 					<Image
 						src={`data:image/png;base64,${person.doc.preview}`}
