@@ -18,8 +18,9 @@ export async function savePerson(id: string, formData: FormData) {
 		...data,
 		bfdate: data.bfdate || null,
 		dfdate: data.dfdate || null,
+		de: new Date(),
 	};
-	console.log(payload);
+	console.log("payload", payload);
 	await db.people.update(payload, { id });
 	revalidatePath(`/person/${id}`);
 	return "ok";
@@ -27,7 +28,10 @@ export async function savePerson(id: string, formData: FormData) {
 
 export async function getPeople(): Promise<PersonRowNormalized[]> {
 	const db = await getDb();
-	const peopleList = (await db.people.select({})) as PersonRow[];
+	const peopleList = (await db.people.select(
+		{},
+		{ sort: { de: -1 } },
+	)) as PersonRow[];
 	return peopleList.map(normalizePerson);
 }
 
@@ -66,6 +70,7 @@ export async function appendSpouse(to: string, formData: FormData) {
 					id: spouse.id,
 					// @ts-ignore
 					sex: spouse.sex,
+					de: new Date(),
 				},
 			],
 		},
@@ -81,6 +86,7 @@ export async function appendSpouse(to: string, formData: FormData) {
 					sex: person.sex,
 				},
 			],
+			de: new Date(),
 		},
 		{ id: data.spouseId },
 	);
@@ -90,7 +96,7 @@ export async function appendSpouse(to: string, formData: FormData) {
 
 export async function addSpouse(to: string, formData: FormData) {
 	const data = Object.fromEntries(formData.entries());
-	console.log(data);
+	console.log("addSpouse", data);
 	const db = await getDb();
 	const person = await getPerson(to);
 	invariant(person, "person missing");
@@ -104,6 +110,7 @@ export async function addSpouse(to: string, formData: FormData) {
 				sex: person.sex,
 			},
 		]),
+		di: new Date(),
 	};
 	const res = await db.people.insert(newPerson);
 	console.log(res);
@@ -117,6 +124,7 @@ export async function addSpouse(to: string, formData: FormData) {
 					id: newPerson.id,
 					// @ts-ignore
 					sex: newPerson.sex,
+					de: new Date(),
 				},
 			],
 		},
@@ -154,6 +162,7 @@ export async function addChild(
 	await db.people.update(
 		{
 			spouse: JSON.stringify(spouseList, null, 2),
+			de: new Date(),
 		},
 		{ id: to },
 	);
@@ -163,6 +172,7 @@ export async function addChild(
 		[fatherOrMother]: {
 			id: person.id,
 		},
+		de: new Date(),
 	};
 	console.log({ updateChild });
 	await db.people.update(updateChild, { id: data.childId });
@@ -172,7 +182,7 @@ export async function addChild(
 
 export async function addParent(id: string, type: string, formData: FormData) {
 	const data = Object.fromEntries(formData.entries()) as { parentId: string };
-	console.log(data);
+	console.log("addParent", data);
 	const db = await getDb();
 	const person = await getPerson(data.parentId);
 	invariant(person, "person missing");
@@ -182,6 +192,7 @@ export async function addParent(id: string, type: string, formData: FormData) {
 		[fatherOrMother]: {
 			id: person.id,
 		},
+		de: new Date(),
 	};
 	console.log({ updateChild });
 	await db.people.update(updateChild, { id });
@@ -198,6 +209,7 @@ export async function addPerson(formData: FormData) {
 	let newPerson = {
 		id: nanoid(10),
 		...data,
+		di: new Date(),
 	};
 	await db.people.insert(newPerson);
 	revalidatePath(`/person/[id]`);

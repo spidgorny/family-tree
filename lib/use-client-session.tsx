@@ -2,22 +2,24 @@
 import useSWR from "swr";
 import { fetcher } from "./common/fetcher.tsx";
 import { useEffect, useState } from "react";
+import { Node } from "../components/apextree/models";
 
-export interface ClientSession {
+export interface ServerSession {
 	user?: string; // email
 }
 
+export interface ClientSession {
+	user?: Node;
+}
+
 export function useClientSession() {
-	const [state, setState] = useState<ClientSession>({});
 	const { isLoading, data, mutate } = useSWR<ClientSession>(
 		"/api/auth/me",
 		fetcher,
 	);
-	useEffect(() => {
-		if (!data) {
-			return;
-		}
-		setState(data);
-	}, [data]);
-	return { isLoading, ...state, mutate };
+	// console.log("useClientSession", data);
+	return { isLoading, ...data, mutate } as ClientSession & {
+		isLoading: boolean;
+		mutate: () => void;
+	};
 }

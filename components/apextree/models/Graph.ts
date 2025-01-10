@@ -31,6 +31,7 @@ export interface Node {
 	readonly children: Array<Node>;
 	readonly expanded: boolean;
 	readonly options?: NodeOptions & TooltipOptions & FontOptions;
+	readonly email?: string;
 }
 
 export interface TreeNode<N> extends FlextreeNode<N> {
@@ -104,7 +105,7 @@ export class Graph extends Paper {
 		const graphInstance = this;
 
 		const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
-		console.log("contentKey", node.data.id, "=>", options.contentKey);
+		// console.log("contentKey", node.data.id, "=>", options.contentKey);
 		const nodeContent = nodeTemplate(
 			node.data[options.contentKey as keyof Node],
 			node.data,

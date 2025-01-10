@@ -4,22 +4,23 @@ import invariant from "tiny-invariant";
 import { getDb } from "../../../lib/pg-sql/db-config";
 import { PersonRow } from "../../../test/types";
 import { cookies } from "next/headers";
+import { ServerSession } from "../../../lib/use-client-session.tsx";
 
 export async function getMySession(req: NextApiRequest, res: NextApiResponse) {
 	invariant(process.env.IRON_PASSWORD, "IRON_PASSWORD is not defined");
 	invariant(process.env.IRON_COOKIE_NAME, "IRON_COOKIE_NAME is not defined");
-	const session = await getIronSession<{ user?: string }>(req, res, {
+	const session = await getIronSession<ServerSession>(req, res, {
 		password: process.env.IRON_PASSWORD,
 		cookieName: process.env.IRON_COOKIE_NAME,
 	});
-	// console.log("session", session);
+	console.log("getMySession", session);
 	return session;
 }
 
 export async function getPageSession() {
 	invariant(process.env.IRON_PASSWORD, "IRON_PASSWORD is not defined");
 	invariant(process.env.IRON_COOKIE_NAME, "IRON_COOKIE_NAME is not defined");
-	const session = await getIronSession<{ user?: string }>(await cookies(), {
+	const session = await getIronSession<ServerSession>(await cookies(), {
 		password: process.env.IRON_PASSWORD,
 		cookieName: process.env.IRON_COOKIE_NAME,
 	});

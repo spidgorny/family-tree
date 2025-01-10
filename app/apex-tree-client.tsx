@@ -38,7 +38,7 @@ export default function ApexTreeClient(props: {
 				return `<div xmlns="http://www.w3.org/1999/xhtml" style="display:contents; width: 100%; height: 100%;">
 <div style='display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%; padding-top: 3px; border: solid 1px silver; border-radius:5px'>
 <div style="flex-grow: 1;">
-${node.imageUrl ? `<img src="${node.imageUrl}" width="32" height="32" class="rounded-circle d-block mx-auto" alt="face"/>` : `<div class="d-block border rounded-circle mx-auto" style="width:32px; height:32px"></div>`}
+${node.imageUrl ? `<img src="${node.imageUrl}" width="32" height="32" class="rounded-circle d-block mx-auto bg-dark" alt="face"/>` : `<div class="d-block border rounded-circle mx-auto" style="width:32px; height:32px"></div>`}
 <a href="?person=${node?.id}" style="display: block; font-size: 8pt; text-decoration: none; line-height: 0.9em" class="CleverLink">${content}</a>
 </div>
 <div style="min-height: 0.5em; width: 100%; background-color: ${node?.sex === "1" ? "#8dd7fe" : "#e0b9fe"}; font-size: 8pt">

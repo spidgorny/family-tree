@@ -34,6 +34,7 @@ function AddCommentForm(props: {
 	const session = useClientSession();
 	const error = useStateObj<Error | null>(null);
 	const { pending } = useFormStatus();
+	let user = session.user;
 	return (
 		<form
 			action={async (formData: FormData) => {
@@ -48,7 +49,7 @@ function AddCommentForm(props: {
 			}}
 		>
 			<label className="form-label d-block mb-3">
-				Comment by: <output>{session.user}</output>
+				Comment by: <output>{user?.email ?? "nobody"}</output>
 			</label>
 			<label className="form-label d-block mb-3">
 				<textarea

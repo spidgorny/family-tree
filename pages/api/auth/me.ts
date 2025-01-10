@@ -1,7 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getMySession } from "./login";
+import { getMySession, getPersonByEmail } from "./login";
+import invariant from "tiny-invariant";
 
 export default async function me(req: NextApiRequest, res: NextApiResponse) {
 	const session = await getMySession(req, res);
-	res.status(200).json({ ...session });
+	invariant(session, "Access denied. No session.");
+	invariant(session.user, "Access denied. No user.");
+	const user = await getPersonByEmail(session.user);
+	res.status(200).json({ user });
 }

@@ -13,8 +13,8 @@ export interface PersonRow {
 	x2?: number;
 	y2?: number;
 	alive?: boolean;
-	de?: Date;
-	di?: Date;
+	de?: Date; // date edit
+	di?: Date; // date insert
 	email: string;
 	fn: string;
 	fullname: string;
@@ -24,7 +24,7 @@ export interface PersonRow {
 	mn: string;
 	father?: { id: string };
 	mother: { id: string };
-	occu: string;
+	occu: string; // occupation
 	age?: number;
 	bfdate: Date;
 	pl_full: string;

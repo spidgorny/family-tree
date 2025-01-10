@@ -18,7 +18,7 @@ export default async function Home(props: {
 	const sessionPerson = session.user
 		? await getPersonByEmail(session.user)
 		: null;
-	console.log("sessionPerson", sessionPerson);
+	console.log("sessionPerson in Home", sessionPerson);
 	let rootId = searchParams.person ?? sessionPerson?.id ?? "HhMd8ezTTI";
 	const person = await getPerson(rootId);
 	// console.log({ rootId });

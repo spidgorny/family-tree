@@ -36,17 +36,17 @@ export function MainHeader() {
 
 function SignInOrOut() {
 	const session = useClientSession();
-	const [state, setState] = useState(session.user);
+	// console.log("session.user", session.user);
 
-	useEffect(() => {
-		setState(session.user);
-	}, [session.user]);
-
-	if (session.isLoading) {
-		session.user = state;
-	}
 	if (session.user) {
-		return <SignOut onSuccess={() => session.mutate()} />;
+		return (
+			<div className="d-flex gap-3 align-items-center">
+				<div>
+					<Link href={`/person/${session.user.id}`}>Me</Link>
+				</div>
+				<SignOut onSuccess={() => session.mutate()} />
+			</div>
+		);
 	}
 	return <SignIn onSuccess={() => session.mutate()} />;
 }
@@ -95,7 +95,7 @@ function SignInForm(props: { onSuccess: () => void }) {
 		console.log("sign in", data);
 		try {
 			const res = await axios.post("/api/auth/login", data);
-			console.log("res", res);
+			console.log("POST /login", res);
 			props.onSuccess();
 		} catch (e) {
 			console.error(e);
@@ -138,7 +138,7 @@ function SignInForm(props: { onSuccess: () => void }) {
 function SignOut(props: { onSuccess: () => void }) {
 	const signOut = async () => {
 		const res = await axios.post("/api/auth/logout");
-		console.log("res", res);
+		console.log("POST /logout", res);
 		props.onSuccess();
 	};
 
