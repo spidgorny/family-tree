@@ -22,7 +22,7 @@ export function SelectParent(props: {
 				props.onClose();
 			}}
 		>
-			<select name="parentId" className="form-control">
+			<select name="parentId" className="form-control mb-3">
 				{people.map((person: PersonRow) => (
 					<option key={person.id} value={person.id}>
 						{person.fullname}

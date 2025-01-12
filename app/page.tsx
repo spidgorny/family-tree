@@ -3,11 +3,9 @@ import ApexTreeClient from "./apex-tree-client";
 import { PersonRowNormalized } from "../test/types";
 import { Json } from "spidgorny-react-helpers/debug";
 import invariant from "tiny-invariant";
-import {
-	getMySession,
-	getPageSession,
-	getPersonByEmail,
-} from "../pages/api/auth/login";
+import { getPageSession, getPersonByEmail } from "../pages/api/auth/login";
+import Link from "next/link";
+import { PersonImage } from "./person-image.tsx";
 
 export default async function Home(props: {
 	params: Promise<never>;
@@ -31,10 +29,17 @@ export default async function Home(props: {
 	return (
 		<div className="my-3">
 			<div className="d-flex justify-content-between my-3">
-				<h4>{person.fullname}</h4>
-				<a className="btn btn-outline-info" href={`/person/${person.id}`}>
-					more
-				</a>
+				<div className="d-flex gap-3">
+					<Link href={`/person/${person.id}`}>
+						<PersonImage person={person} />
+					</Link>
+					<h4>{person.fullname}</h4>
+				</div>
+				<div>
+					<Link className="btn btn-outline-info" href={`/person/${person.id}`}>
+						more
+					</Link>
+				</div>
 			</div>
 			<h5>Parents:</h5>
 			<ApexTreeClient key={rootId + "1"} id="1" data={parentsTree} />

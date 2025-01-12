@@ -13,6 +13,7 @@ import { CommentList } from "./comments/comment-list.tsx";
 import { utcDate } from "../../../lib/common/date.ts";
 import { PersonImages } from "./photo/person-images.tsx";
 import { SpouseAndChildrenInfo } from "./spouse-and-children-info.tsx";
+import { PersonImage } from "../../person-image.tsx";
 
 const YEAR = 365 * 24 * 60 * 60 * 1000;
 
@@ -66,16 +67,7 @@ export default async function PersonPage(props: {
 				<EditPersonPane person={person} />
 			</div>
 			<div className="d-flex gap-3 flex-column flex-md-row align-items-start">
-				{person.doc?.preview ? (
-					<Image
-						src={`data:image/png;base64,${person.doc.preview}`}
-						width={256}
-						height={256}
-						alt="Face"
-					/>
-				) : (
-					<div className="border rounded" style={{ width: 256, height: 256 }} />
-				)}
+				<PersonImage person={person} width={256} />
 				<SimpleTable props={personProps} />
 			</div>
 

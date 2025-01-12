@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SelectParent } from "./edit/select-person.tsx";
 import { SlidingPaneAutoWidth } from "../../../components/sliding-page-auto-width.tsx";
+import { Button } from "react-bootstrap";
 
 export function AddParentPane(props: {
 	id: string;
@@ -12,7 +13,9 @@ export function AddParentPane(props: {
 
 	return (
 		<div>
-			<button onClick={() => setState(true)}>Add Parent</button>
+			<Button onClick={() => setState(true)}>
+				Add {props.type.toUpperCase()}
+			</Button>
 			<SlidingPaneAutoWidth
 				isOpen={state}
 				title={`New Child`}

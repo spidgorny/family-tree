@@ -97,7 +97,7 @@ export function EditPersonForm(props: {
 					name="bfdate"
 					type="date"
 					className="form-control"
-					defaultValue={utcDate(props.person.bfdate)}
+					defaultValue={utcDate(props.person.bfdate) ?? ""}
 				/>
 			</label>
 			<label className="form-label d-block mb-3">

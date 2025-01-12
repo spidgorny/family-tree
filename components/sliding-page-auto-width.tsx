@@ -23,10 +23,10 @@ export function SlidingPaneAutoWidth(
 				<style>
 					{`
 						.slide-pane__header {
-							background-color: #888;
+							background-color: #ddd;
 						}
 						.slide-pane__content {
-							background-color: #888;
+							background-color: #eee;
 						}						
 				`}
 				</style>
