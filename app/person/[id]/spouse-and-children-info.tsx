@@ -9,7 +9,10 @@ export async function SpouseAndChildrenInfo(props: {
 	spouseData: Spouse;
 }) {
 	const spousePerson = await getPerson(props.spouseData.id);
-	invariant(spousePerson, `spousePerson missing for ${props.spouseData.id}`);
+	// invariant(spousePerson, `spousePerson missing for ${props.spouseData.id}`);
+	if (!spousePerson) {
+		return "No Spouse";
+	}
 	return (
 		<div className="d-flex gap-3 mb-3">
 			<div style={{ flex: 1 }}>

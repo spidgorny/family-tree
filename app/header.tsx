@@ -112,7 +112,7 @@ function SignInForm(props: { onSuccess: () => void }) {
 				<input
 					type="email"
 					name="email"
-					className="form-control"
+					className="form-control p-2 h-auto" style={{minHeight: 'auto'}}
 					placeholder="name@example.com"
 				/>
 			</label>
@@ -121,7 +121,7 @@ function SignInForm(props: { onSuccess: () => void }) {
 				<input
 					type="date"
 					name="dateOfBirth"
-					className="form-control"
+					className="form-control p-2 h-auto" style={{minHeight: 'auto'}}
 					placeholder="2020-01-01"
 				/>
 			</label>
